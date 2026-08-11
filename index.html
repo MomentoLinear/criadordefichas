@@ -1,446 +1,331 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Criador de Ficha - As Crônicas de Hendor</title>
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: var(--telegram-bg-color, #17212b);
-            --text-color: var(--telegram-text-color, #ffffff);
-            --hint-color: var(--telegram-hint-color, #7f91a4);
-            --btn-color: var(--telegram-button-color, #5288c1);
-            --btn-text-color: var(--telegram-button-text-color, #ffffff);
-            --secondary-bg: var(--telegram-secondary-bg-color, #232e3c);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        h1 {
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 8px;
-            color: var(--text-color);
-        }
-
-        .subtitle {
-            font-size: 14px;
-            color: var(--hint-color);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .step {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .step.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .card-btn {
-            background-color: var(--secondary-bg);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-btn:active, .card-btn.selected {
-            border-color: var(--btn-color);
-            background-color: rgba(82, 136, 193, 0.15);
-        }
-
-        .card-btn .icon {
-            font-size: 32px;
-        }
-
-        .card-btn .title {
-            font-weight: bold;
-            font-size: 15px;
-            color: var(--text-color);
-        }
-
-        .card-btn .desc {
-            font-size: 12px;
-            color: var(--hint-color);
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid var(--hint-color);
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            font-size: 16px;
-            outline: none;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--btn-color);
-        }
-
-        .stat-box {
-            background-color: var(--secondary-bg);
-            border-radius: 12px;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stat-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-name {
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .stat-desc {
-            font-size: 11px;
-            color: var(--hint-color);
-        }
-
-        .stat-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn-circle {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background-color: var(--btn-color);
-            color: var(--btn-text-color);
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-circle:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .stat-value {
-            font-size: 16px;
-            font-weight: bold;
-            width: 20px;
-            text-align: center;
-        }
-
-        .points-tracker {
-            background-color: rgba(82, 136, 193, 0.2);
-            border: 1px solid var(--btn-color);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .action-btn {
-            background-color: var(--btn-color);
-            color: var(--btn-text-color);
-            border: none;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .summary-card {
-            background-color: var(--secondary-bg);
-            border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            font-size: 14px;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 6px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criação de Ficha - RPG</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      padding: 15px;
+      margin: 0;
+    }
+    h2 { text-align: center; color: #4CAF50; margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin-top: 12px; margin-bottom: 4px; color: #ddd; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 2px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #1e1e1e;
+      color: #fff;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    .row { display: flex; gap: 10px; }
+    .col { flex: 1; }
+    .box {
+      background: #181818;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #2a2a2a;
+      margin-top: 15px;
+    }
+    .box-title { font-weight: bold; color: #ffca28; margin-bottom: 8px; }
+    button {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover { background-color: #45a049; }
+    .hidden { display: none; }
+  </style>
 </head>
 <body>
 
-    <h1>As Crônicas de Hendor</h1>
-    <p class="subtitle" id="step-subtitle">Passo 1: Escolha sua Vertente</p>
+  <h2>📜 Criar Ficha de Personagem</h2>
 
-    <!-- PASSO 1: VERTENTE -->
-    <div class="step active" id="step-1">
-        <div class="grid-2">
-            <div class="card-btn" onclick="selectVertente('fisica')">
-                <span class="icon">⚔️</span>
-                <span class="title">Classe Física</span>
-                <span class="desc">Foco em combate corpo a corpo, agilidade e resistência militar.</span>
-            </div>
-            <div class="card-btn" onclick="selectVertente('magica')">
-                <span class="icon">🔮</span>
-                <span class="title">Classe Mágica</span>
-                <span class="desc">Domínio dos elementos, feitiços celestiais e manipulação de mana.</span>
-            </div>
-        </div>
+  <form id="fichaForm">
+    
+    <label>🔰 Nome do Personagem:</label>
+    <input type="text" id="nome" required placeholder="Ex: Arthur Pendelton">
+
+    <div class="row">
+      <div class="col">
+        <label>🚻 Gênero:</label>
+        <select id="genero">
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+      <div class="col">
+        <label>🎂 Idade:</label>
+        <input type="number" id="idade" value="20" required>
+      </div>
     </div>
 
-    <!-- PASSO 2: CLASSE -->
-    <div class="step" id="step-2">
-        <div class="grid-2" id="class-container">
-            <!-- Classes injetadas via JavaScript -->
-        </div>
+    <div class="row">
+      <div class="col">
+        <label>📏 Altura:</label>
+        <input type="text" id="altura" placeholder="Ex: 1,75m">
+      </div>
+      <div class="col">
+        <label>⚖️ Peso:</label>
+        <input type="text" id="peso" placeholder="Ex: 70kg">
+      </div>
     </div>
 
-    <!-- PASSO 3: NOME E ATRIBUTOS -->
-    <div class="step" id="step-3">
-        <input type="text" id="char-name" placeholder="Nome do seu Personagem..." oninput="validateStep3()">
-        
-        <div class="points-tracker">
-            Pontos Restantes: <span id="points-left">10</span>
-        </div>
+    <label>🧌 Raça / Clã:</label>
+    <select id="raca" onchange="atualizarRaca()">
+      <option value="Humano">Humano</option>
+      <option value="Elfo">Elfo</option>
+      <option value="Orc">Orc</option>
+      <option value="Anão">Anão</option>
+      <option value="Tiefling">Tiefling</option>
+      <option value="Goblin">Goblin</option>
+      <option value="Fada">Fada</option>
+      <option value="Bestial">Bestial</option>
+      <option value="Neko">Neko</option>
+      <option value="Reptiliano">Reptiliano</option>
+      <option value="Centauro">Centauro</option>
+      <option value="Dracônico">Dracônico</option>
+      <option value="Gnomo">Gnomo</option>
+      <option value="Vampiro">Vampiro</option>
+      <option value="Gigante">Gigante</option>
+      <option value="Lobisomem">Lobisomem</option>
+      <option value="Morto-vivo">Morto-vivo</option>
+    </select>
 
-        <div class="stat-box">
-            <div class="stat-info">
-                <span class="stat-name">Força</span>
-                <span class="stat-desc">Dano físico e capacidade de carga</span>
-            </div>
-            <div class="stat-controls">
-                <button class="btn-circle" onclick="adjustStat('forca', -1)">-</button>
-                <span class="stat-value" id="val-forca">0</span>
-                <button class="btn-circle" onclick="adjustStat('forca', 1)">+</button>
-            </div>
-        </div>
+    <label>⚔️ Categoria da Classe:</label>
+    <select id="categoriaClasse" onchange="carregarClasses()">
+      <option value="fisica">🗡️ Classes Físicas</option>
+      <option value="magica">🔮 Classes Mágicas</option>
+      <option value="hibrida">☯️ Classes Híbridas & Especiais</option>
+    </select>
 
-        <div class="stat-box">
-            <div class="stat-info">
-                <span class="stat-name">Agilidade</span>
-                <span class="stat-desc">Esquiva, iniciativa e precisão</span>
-            </div>
-            <div class="stat-controls">
-                <button class="btn-circle" onclick="adjustStat('agilidade', -1)">-</button>
-                <span class="stat-value" id="val-agilidade">0</span>
-                <button class="btn-circle" onclick="adjustStat('agilidade', 1)">+</button>
-            </div>
-        </div>
+    <label>🏹 Classe:</label>
+    <select id="classe" onchange="atualizarClasse()"></select>
 
-        <div class="stat-box">
-            <div class="stat-info">
-                <span class="stat-name">Vitalidade</span>
-                <span class="stat-desc">Pontos de Vida (PV) e resistência</span>
-            </div>
-            <div class="stat-controls">
-                <button class="btn-circle" onclick="adjustStat('vitalidade', -1)">-</button>
-                <span class="stat-value" id="val-vitalidade">0</span>
-                <button class="btn-circle" onclick="adjustStat('vitalidade', 1)">+</button>
-            </div>
-        </div>
-
-        <div class="stat-box">
-            <div class="stat-info">
-                <span class="stat-name">Mente</span>
-                <span class="stat-desc">Poder mágico, Mana e percepção</span>
-            </div>
-            <div class="stat-controls">
-                <button class="btn-circle" onclick="adjustStat('mente', -1)">-</button>
-                <span class="stat-value" id="val-mente">0</span>
-                <button class="btn-circle" onclick="adjustStat('mente', 1)">+</button>
-            </div>
-        </div>
-
-        <button class="action-btn" id="btn-to-summary" disabled onclick="goToStep(4)">Avançar para Resumo</button>
+    <div class="row">
+      <div class="col">
+        <label>🩸 HP (Vitalidade):</label>
+        <input type="text" id="hp" value="200" readonly>
+      </div>
+      <div class="col">
+        <label>🔮 MP (Energia / Mana):</label>
+        <input type="text" id="mp" value="100" readonly>
+      </div>
     </div>
 
-    <!-- PASSO 4: RESUMO E ENVIO -->
-    <div class="step" id="step-4">
-        <div class="summary-card" id="summary-content">
-            <!-- Resumo injetado via JS -->
-        </div>
+    <label>🔸 Alinhamento:</label>
+    <select id="alinhamento" onchange="atualizarAlinhamento()">
+      <option value="Pesquisador 🔍">Pesquisador 🔍</option>
+      <option value="Fidalgo 💰">Fidalgo 💰</option>
+      <option value="Domador 💢">Domador 💢</option>
+      <option value="Diplomata 🗣️">Diplomata 🗣️</option>
+      <option value="Flanqueador ⚜️">Flanqueador ⚜️</option>
+      <option value="Defensor 🛡️">Defensor 🛡️</option>
+      <option value="Ocultista 🔯">Ocultista 🔯</option>
+      <option value="Arcanista 🔹">Arcanista 🔹</option>
+      <option value="Retaliador ⚔️">Retaliador ⚔️</option>
+      <option value="Sábio 🧘‍♂️">Sábio 🧘‍♂️</option>
+      <option value="Artista Marcial 🈂️">Artista Marcial 🈂️</option>
+      <option value="Devoto 🛐">Devoto 🛐</option>
+      <option value="Estrategista 🧠">Estrategista 🧠</option>
+    </select>
 
-        <button class="action-btn" onclick="submitFicha()">📜 Confirmar e Enviar Ficha</button>
+    <label>🩸 Singularidade Inicial:</label>
+    <select id="singularidade">
+      <option value="Habilidade Única">Habilidade Única</option>
+      <option value="Maldição">Maldição</option>
+      <option value="Bênção">Bênção</option>
+      <option value="Runa Arcana">Runa Arcana</option>
+    </select>
+
+    <label>💰 Glorins Inicial:</label>
+    <input type="text" id="glorins" value="1.000 G$" readonly>
+
+    <!-- Campos Dinâmicos de Habilidades e Magias -->
+    <div id="boxHabilidades" class="box">
+      <div class="box-title">💪 Habilidades Inicial(ais):</div>
+      <input type="text" id="hab1" placeholder="Habilidade 1">
+      <input type="text" id="hab2" placeholder="Habilidade 2" style="margin-top: 6px;">
+      <input type="text" id="hab3" placeholder="Habilidade 3" style="margin-top: 6px;">
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+    <div id="boxMagias" class="box hidden">
+      <div class="box-title">⚡ Magias / Jutsus Inicial(ais):</div>
+      <input type="text" id="mag1" placeholder="Magia 1">
+      <input type="text" id="mag2" placeholder="Magia 2" style="margin-top: 6px;">
+      <input type="text" id="mag3" placeholder="Magia 3" style="margin-top: 6px;">
+    </div>
 
-        let fichaData = {
-            vertente: '',
-            classe: '',
-            nome: '',
-            pointsTotal: 10,
-            pointsLeft: 10,
-            stats: { forca: 0, agilidade: 0, vitalidade: 0, mente: 0 }
-        };
+    <label>✨ Bônus de Raça (Automático):</label>
+    <input type="text" id="bonusRaca" placeholder="Selecione uma raça..." readonly>
 
-        const classesDb = {
-            fisica: [
-                { id: 'Guerreiro', icon: '🛡️', desc: 'Mestre no combate de proximidade e escudos.' },
-                { id: 'Arqueiro', icon: '🏹', desc: 'Especialista em ataques à distância e rastreamento.' },
-                { id: 'Ladino', icon: '🗡️', desc: 'Furtivo, mestre em ataques críticos e adagas.' }
-            ],
-            magica: [
-                { id: 'Mago', icon: '🔥', desc: 'Conjurador elemental de alto dano destrutivo.' },
-                { id: 'Clérigo', icon: '✨', desc: 'Guardião divino especialista em cura e suporte.' },
-                { id: 'Druida', icon: '🌿', desc: 'Guardião da natureza e invocador de espíritos.' }
-            ]
-        };
+    <label>💈 Aparência (Descrição ou Link da Imagem):</label>
+    <textarea id="aparencia" rows="2" placeholder="Breve descrição visual ou URL da foto..."></textarea>
 
-        function goToStep(stepNumber) {
-            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-            document.getElementById(`step-${stepNumber}`).classList.add('active');
+    <label>🎭 Personalidade:</label>
+    <textarea id="personalidade" rows="2" placeholder="Como o personagem se comporta..."></textarea>
 
-            const subtitles = [
-                "Passo 1: Escolha sua Vertente",
-                "Passo 2: Escolha sua Classe",
-                "Passo 3: Nome e Atributos",
-                "Passo 4: Confirmar Ficha"
-            ];
-            document.getElementById('step-subtitle').innerText = subtitles[stepNumber - 1];
+    <label>📜 História (Opcional):</label>
+    <textarea id="historia" rows="3" placeholder="Resumo do passado do personagem..."></textarea>
 
-            if(stepNumber === 4) buildSummary();
+    <div class="box">
+      <div class="box-title">🗝️ Inventário Inicial (Até 5 itens):</div>
+      <input type="text" id="item1" placeholder="Item 1" style="margin-top: 4px;">
+      <input type="text" id="item2" placeholder="Item 2" style="margin-top: 4px;">
+      <input type="text" id="item3" placeholder="Item 3" style="margin-top: 4px;">
+      <input type="text" id="item4" placeholder="Item 4" style="margin-top: 4px;">
+      <input type="text" id="item5" placeholder="Item 5" style="margin-top: 4px;">
+    </div>
+
+    <button type="button" onclick="enviarFicha()">✅ Confirmar e Enviar Ficha</button>
+
+  </form>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const classesData = {
+      fisica: ["Guerreiro", "Espadachim", "Cavaleiro", "Escudeiro", "Atirador", "Ladino", "Assassino", "Trapaceiro", "Lutador", "Bárbaro", "Bucaneiro"],
+      magica: ["Mago", "Feiticeiro", "Bardo", "Telepata", "Necromante", "Sacerdote", "Druida", "Joker", "Infernalista", "Monge"],
+      hibrida: ["Shinobi", "Guerreiro Rúnico", "Paladino / Algoz", "Mestre de Armas", "Caçador de Aberrações", "Acadêmico", "Ruptor / Vagante"]
+    };
+
+    function carregarClasses() {
+      const cat = document.getElementById("categoriaClasse").value;
+      const selectClasse = document.getElementById("classe");
+      selectClasse.innerHTML = "";
+
+      classesData[cat].forEach(c => {
+        let opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        selectClasse.appendChild(opt);
+      });
+
+      atualizarClasse();
+    }
+
+    function atualizarClasse() {
+      const cat = document.getElementById("categoriaClasse").value;
+      const classe = document.getElementById("classe").value;
+      const boxHab = document.getElementById("boxHabilidades");
+      const boxMag = document.getElementById("boxMagias");
+
+      if (cat === "fisica") {
+        document.getElementById("hp").value = "200";
+        document.getElementById("mp").value = "100";
+        boxHab.classList.remove("hidden");
+        boxMag.classList.add("hidden");
+      } else if (cat === "magica") {
+        document.getElementById("hp").value = "100";
+        document.getElementById("mp").value = "200";
+        boxHab.classList.add("hidden");
+        boxMag.classList.remove("hidden");
+      } else { // hibrida
+        document.getElementById("hp").value = "150";
+        document.getElementById("mp").value = "150";
+        boxHab.classList.remove("hidden");
+        boxMag.classList.remove("hidden");
+
+        if (classe === "Shinobi") {
+          document.getElementById("hab1").value = "Maestria em Selos de Mão Nv 1";
+          document.getElementById("hab2").value = "Ninjutsu Nv 1";
+          document.getElementById("hab3").value = "Hankyūaku Nv 1";
+          document.getElementById("mag1").placeholder = "Jutsu / Senjutsu Inicial";
         }
+      }
+    }
 
-        function selectVertente(type) {
-            fichaData.vertente = type === 'fisica' ? 'Física' : 'Mágica';
-            const container = document.getElementById('class-container');
-            container.innerHTML = '';
+    function atualizarAlinhamento() {
+      const alin = document.getElementById("alinhamento").value;
+      const glorinsInput = document.getElementById("glorins");
 
-            classesDb[type].forEach(c => {
-                container.innerHTML += `
-                    <div class="card-btn" onclick="selectClass('${c.id}')">
-                        <span class="icon">${c.icon}</span>
-                        <span class="title">${c.id}</span>
-                        <span class="desc">${c.desc}</span>
-                    </div>
-                `;
-            });
+      if (alin.includes("Fidalgo")) {
+        glorinsInput.value = "5.000 G$ [Fidalgo]";
+      } else {
+        glorinsInput.value = "1.000 G$";
+      }
+    }
 
-            goToStep(2);
-        }
+    function atualizarRaca() {
+      const raca = document.getElementById("raca").value;
+      const bonus = document.getElementById("bonusRaca");
+      // Bônus padrão atribuído ao escolher a raça
+      bonus.value = `Atributos e Passivas raciais de ${raca}`;
+    }
 
-        function selectClass(className) {
-            fichaData.classe = className;
-            goToStep(3);
-        }
+    function enviarFicha() {
+      const nomePlayer = tg.initDataUnsafe?.user?.first_name || "Jogador";
+      
+      const cat = document.getElementById("categoriaClasse").value;
+      let habs = "";
+      let magias = "";
 
-        function adjustStat(stat, delta) {
-            if (delta > 0 && fichaData.pointsLeft > 0) {
-                fichaData.stats[stat]++;
-                fichaData.pointsLeft--;
-            } else if (delta < 0 && fichaData.stats[stat] > 0) {
-                fichaData.stats[stat]--;
-                fichaData.pointsLeft++;
-            }
+      if (cat !== "magica") {
+        habs = `💪 • Habilidades:\n- ${document.getElementById("hab1").value}\n- ${document.getElementById("hab2").value}\n- ${document.getElementById("hab3").value}\n`;
+      }
+      if (cat !== "fisica") {
+        magias = `⚡ • Magias / Jutsus:\n- ${document.getElementById("mag1").value}\n- ${document.getElementById("mag2").value}\n- ${document.getElementById("mag3").value}\n`;
+      }
 
-            document.getElementById(`val-${stat}`).innerText = fichaData.stats[stat];
-            document.getElementById('points-left').innerText = fichaData.pointsLeft;
+      const fichaText = `📄 • Player: ${nomePlayer}
+🔰 • Nome: ${document.getElementById("nome").value}
+🧌 • Raça: ${document.getElementById("raca").value}
+🏹 • Classe: ${document.getElementById("classe").value}
+🩸 • Singularidade Inicial: ${document.getElementById("singularidade").value}
+🌀 • Eixo Vital: Mundano (Mana)
+🔸 • Alinhamento: ${document.getElementById("alinhamento").value}
+🚻 • Gênero: ${document.getElementById("genero").value}
+🎂 • Idade: ${document.getElementById("idade").value}
+📏 • Altura: ${document.getElementById("altura").value}
+⚖️ • Peso: ${document.getElementById("peso").value}
+💈 • Aparência: ${document.getElementById("aparencia").value}
+🎭 • Personalidade: ${document.getElementById("personalidade").value}
+📜 • História: ${document.getElementById("historia").value || "Nenhuma"}
 
-            validateStep3();
-        }
+🔢 • Level: 0
+🔢 • XP: 0
+💰 • Glorins: ${document.getElementById("glorins").value}
 
-        function validateStep3() {
-            const nameInput = document.getElementById('char-name').value.trim();
-            fichaData.nome = nameInput;
-            const btn = document.getElementById('btn-to-summary');
-            
-            // Requer nome e todos os pontos distribuídos
-            if (nameInput.length >= 2 && fichaData.pointsLeft === 0) {
-                btn.disabled = false;
-            } else {
-                btn.disabled = true;
-            }
-        }
+${habs}${magias}✨ • Bônus de Raça: ${document.getElementById("bonusRaca").value}
 
-        function buildSummary() {
-            const container = document.getElementById('summary-content');
-            container.innerHTML = `
-                <div class="summary-item"><strong>Nome:</strong> <span>${fichaData.nome}</span></div>
-                <div class="summary-item"><strong>Vertente:</strong> <span>${fichaData.vertente}</span></div>
-                <div class="summary-item"><strong>Classe:</strong> <span>${fichaData.classe}</span></div>
-                <div class="summary-item"><strong>Força:</strong> <span>${fichaData.stats.forca}</span></div>
-                <div class="summary-item"><strong>Agilidade:</strong> <span>${fichaData.stats.agilidade}</span></div>
-                <div class="summary-item"><strong>Vitalidade:</strong> <span>${fichaData.stats.vitalidade}</span></div>
-                <div class="summary-item"><strong>Mente:</strong> <span>${fichaData.stats.mente}</span></div>
-            `;
-        }
+🩸 • HP: ${document.getElementById("hp").value}
+🔮 • MP: ${document.getElementById("mp").value}
 
-    function submitFicha() {
-    // Prepara a mensagem formatada
-    const formattedText = 
-`📋 **NOVA FICHA DE PERSONAGEM**
+🗝️ • Inventário Inicial:
+- ${document.getElementById("item1").value || "Vazio"}
+- ${document.getElementById("item2").value || "Vazio"}
+- ${document.getElementById("item3").value || "Vazio"}
+- ${document.getElementById("item4").value || "Vazio"}
+- ${document.getElementById("item5").value || "Vazio"}`;
 
-👤 **Nome:** ${fichaData.nome}
-⚔️ **Vertente:** ${fichaData.vertente}
-🎭 **Classe:** ${fichaData.classe}
+      tg.sendData(fichaText);
+    }
 
-📊 **Atributos:**
-• Força: ${fichaData.stats.forca}
-• Agilidade: ${fichaData.stats.agilidade}
-• Vitalidade: ${fichaData.stats.vitalidade}
-• Mente: ${fichaData.stats.mente}`;
-
-    // Envia o texto de volta para o Telegram e fecha a janela do Mini App
-    tg.sendData(formattedText);
-}
-    </script>
+    // Inicialização
+    carregarClasses();
+    atualizarRaca();
+  </script>
 </body>
 </html>
