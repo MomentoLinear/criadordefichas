@@ -3,218 +3,268 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criação de Ficha - RPG</title>
+  <title>Criação de Personagem - RPG</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212;
       color: #ffffff;
       padding: 15px;
       margin: 0;
     }
-    h2 { text-align: center; color: #4CAF50; margin-bottom: 20px; }
-    label { font-weight: bold; display: block; margin-top: 12px; margin-bottom: 4px; color: #ddd; }
-    input, select, textarea {
+
+    /* Painel Resumo Fixo no Topo */
+    #summary-header {
+      position: sticky;
+      top: 0;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      z-index: 100;
+    }
+    #summary-header h3 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      color: #ffca28;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .summary-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .summary-item {
+      background: #2a2a2a;
+      padding: 6px 10px;
+      border-radius: 6px;
+      flex: 1;
+      text-align: center;
+    }
+    .summary-item span {
+      display: block;
+      font-size: 11px;
+      color: #aaa;
+    }
+    .summary-item strong {
+      color: #4CAF50;
+    }
+
+    /* Passos / Telas */
+    .step-title {
+      color: #ffca28;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .step-box {
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: #ddd;
+    }
+    select, input {
       width: 100%;
-      padding: 10px;
-      margin-top: 2px;
+      padding: 12px;
       border-radius: 6px;
       border: 1px solid #333;
-      background-color: #1e1e1e;
+      background-color: #222;
       color: #fff;
       box-sizing: border-box;
-      font-size: 14px;
+      font-size: 15px;
+      margin-bottom: 15px;
     }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #4CAF50;
-    }
-    .row { display: flex; gap: 10px; }
-    .col { flex: 1; }
-    .box {
-      background: #181818;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #2a2a2a;
-      margin-top: 15px;
-    }
-    .box-title { font-weight: bold; color: #ffca28; margin-bottom: 8px; }
-    button {
-      width: 100%;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
+    
+    /* Botões de Navegação */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
       margin-top: 20px;
     }
-    button:hover { background-color: #45a049; }
-    .hidden { display: none; }
+    .btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn-next { background-color: #4CAF50; color: white; }
+    .btn-prev { background-color: #444; color: white; }
+    .btn:disabled { background-color: #222; color: #666; cursor: not-allowed; }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <h2>📜 Criar Ficha de Personagem</h2>
-
-  <form id="fichaForm">
-    
-    <label>🔰 Nome do Personagem:</label>
-    <input type="text" id="nome" required placeholder="Ex: Arthur Pendelton">
-
-    <div class="row">
-      <div class="col">
-        <label>🚻 Gênero:</label>
-        <select id="genero">
-          <option value="Masculino">Masculino</option>
-          <option value="Feminino">Feminino</option>
-          <option value="Outro">Outro</option>
-        </select>
+  <!-- RESUMO SUPERIOR FIXO -->
+  <div id="summary-header">
+    <h3>📜 Progresso da Criação</h3>
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span>🧌 RAÇA</span>
+        <strong id="sum-raca">Pendente</strong>
       </div>
-      <div class="col">
-        <label>🎂 Idade:</label>
-        <input type="number" id="idade" value="20" required>
+      <div class="summary-item">
+        <span>🧬 CLÃ / SUBRAÇA</span>
+        <strong id="sum-cla">Pendente</strong>
+      </div>
+      <div class="summary-item">
+        <span>🏹 CLASSE</span>
+        <strong id="sum-classe">Pendente</strong>
       </div>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="col">
-        <label>📏 Altura:</label>
-        <input type="text" id="altura" placeholder="Ex: 1,75m">
-      </div>
-      <div class="col">
-        <label>⚖️ Peso:</label>
-        <input type="text" id="peso" placeholder="Ex: 70kg">
-      </div>
-    </div>
-
-    <label>🧌 Raça / Clã:</label>
-    <select id="raca" onchange="atualizarRaca()">
+  <!-- ETAPA 1: SELEÇÃO DE RAÇA -->
+  <div id="step-1" class="step-box">
+    <h2 class="step-title">Etapa 1: Seleção de Raça</h2>
+    <label for="select-raca">Escolha a Raça Base do seu personagem:</label>
+    <select id="select-raca" onchange="selecionarRaca()">
+      <option value="">-- Selecione uma Raça --</option>
       <option value="Humano">Humano</option>
       <option value="Elfo">Elfo</option>
       <option value="Orc">Orc</option>
       <option value="Anão">Anão</option>
       <option value="Tiefling">Tiefling</option>
-      <option value="Goblin">Goblin</option>
-      <option value="Fada">Fada</option>
       <option value="Bestial">Bestial</option>
-      <option value="Neko">Neko</option>
-      <option value="Reptiliano">Reptiliano</option>
-      <option value="Centauro">Centauro</option>
       <option value="Dracônico">Dracônico</option>
-      <option value="Gnomo">Gnomo</option>
       <option value="Vampiro">Vampiro</option>
-      <option value="Gigante">Gigante</option>
       <option value="Lobisomem">Lobisomem</option>
-      <option value="Morto-vivo">Morto-vivo</option>
+    </select>
+    
+    <div class="nav-buttons">
+      <button class="btn btn-next" id="btn-step1" onclick="proximoPasso(2)" disabled>Avançar ➡️</button>
+    </div>
+  </div>
+
+  <!-- ETAPA 2: SELEÇÃO DE CLÃ / SUBRAÇA -->
+  <div id="step-2" class="step-box hidden">
+    <h2 class="step-title">Etapa 2: Clã / Subraça</h2>
+    <label for="select-cla">Escolha a Subraça ou Clã:</label>
+    <select id="select-cla" onchange="selecionarCla()">
+      <option value="">-- Selecione primeiro a raça --</option>
     </select>
 
-    <label>⚔️ Categoria da Classe:</label>
-    <select id="categoriaClasse" onchange="carregarClasses()">
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="passoAnterior(1)">⬅️ Voltar</button>
+      <button class="btn btn-next" id="btn-step2" onclick="proximoPasso(3)" disabled>Avançar ➡️</button>
+    </div>
+  </div>
+
+  <!-- ETAPA 3: SELEÇÃO DE CLASSE -->
+  <div id="step-3" class="step-box hidden">
+    <h2 class="step-title">Etapa 3: Seleção de Classe</h2>
+    
+    <label for="select-categoria">Categoria de Classe:</label>
+    <select id="select-categoria" onchange="carregarClasses()">
       <option value="fisica">🗡️ Classes Físicas</option>
       <option value="magica">🔮 Classes Mágicas</option>
       <option value="hibrida">☯️ Classes Híbridas & Especiais</option>
     </select>
 
-    <label>🏹 Classe:</label>
-    <select id="classe" onchange="atualizarClasse()"></select>
-
-    <div class="row">
-      <div class="col">
-        <label>🩸 HP (Vitalidade):</label>
-        <input type="text" id="hp" value="200" readonly>
-      </div>
-      <div class="col">
-        <label>🔮 MP (Energia / Mana):</label>
-        <input type="text" id="mp" value="100" readonly>
-      </div>
-    </div>
-
-    <label>🔸 Alinhamento:</label>
-    <select id="alinhamento" onchange="atualizarAlinhamento()">
-      <option value="Pesquisador 🔍">Pesquisador 🔍</option>
-      <option value="Fidalgo 💰">Fidalgo 💰</option>
-      <option value="Domador 💢">Domador 💢</option>
-      <option value="Diplomata 🗣️">Diplomata 🗣️</option>
-      <option value="Flanqueador ⚜️">Flanqueador ⚜️</option>
-      <option value="Defensor 🛡️">Defensor 🛡️</option>
-      <option value="Ocultista 🔯">Ocultista 🔯</option>
-      <option value="Arcanista 🔹">Arcanista 🔹</option>
-      <option value="Retaliador ⚔️">Retaliador ⚔️</option>
-      <option value="Sábio 🧘‍♂️">Sábio 🧘‍♂️</option>
-      <option value="Artista Marcial 🈂️">Artista Marcial 🈂️</option>
-      <option value="Devoto 🛐">Devoto 🛐</option>
-      <option value="Estrategista 🧠">Estrategista 🧠</option>
+    <label for="select-classe">Classe:</label>
+    <select id="select-classe" onchange="selecionarClasse()">
+      <option value="">-- Selecione uma Classe --</option>
     </select>
 
-    <label>🩸 Singularidade Inicial:</label>
-    <select id="singularidade">
-      <option value="Habilidade Única">Habilidade Única</option>
-      <option value="Maldição">Maldição</option>
-      <option value="Bênção">Bênção</option>
-      <option value="Runa Arcana">Runa Arcana</option>
-    </select>
-
-    <label>💰 Glorins Inicial:</label>
-    <input type="text" id="glorins" value="1.000 G$" readonly>
-
-    <!-- Campos Dinâmicos de Habilidades e Magias -->
-    <div id="boxHabilidades" class="box">
-      <div class="box-title">💪 Habilidades Inicial(ais):</div>
-      <input type="text" id="hab1" placeholder="Habilidade 1">
-      <input type="text" id="hab2" placeholder="Habilidade 2" style="margin-top: 6px;">
-      <input type="text" id="hab3" placeholder="Habilidade 3" style="margin-top: 6px;">
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
+      <button class="btn btn-next" id="btn-step3" onclick="alert('Etapa de visualização concluída!')" disabled>Próxima Etapa ➡️</button>
     </div>
-
-    <div id="boxMagias" class="box hidden">
-      <div class="box-title">⚡ Magias / Jutsus Inicial(ais):</div>
-      <input type="text" id="mag1" placeholder="Magia 1">
-      <input type="text" id="mag2" placeholder="Magia 2" style="margin-top: 6px;">
-      <input type="text" id="mag3" placeholder="Magia 3" style="margin-top: 6px;">
-    </div>
-
-    <label>✨ Bônus de Raça (Automático):</label>
-    <input type="text" id="bonusRaca" placeholder="Selecione uma raça..." readonly>
-
-    <label>💈 Aparência (Descrição ou Link da Imagem):</label>
-    <textarea id="aparencia" rows="2" placeholder="Breve descrição visual ou URL da foto..."></textarea>
-
-    <label>🎭 Personalidade:</label>
-    <textarea id="personalidade" rows="2" placeholder="Como o personagem se comporta..."></textarea>
-
-    <label>📜 História (Opcional):</label>
-    <textarea id="historia" rows="3" placeholder="Resumo do passado do personagem..."></textarea>
-
-    <div class="box">
-      <div class="box-title">🗝️ Inventário Inicial (Até 5 itens):</div>
-      <input type="text" id="item1" placeholder="Item 1" style="margin-top: 4px;">
-      <input type="text" id="item2" placeholder="Item 2" style="margin-top: 4px;">
-      <input type="text" id="item3" placeholder="Item 3" style="margin-top: 4px;">
-      <input type="text" id="item4" placeholder="Item 4" style="margin-top: 4px;">
-      <input type="text" id="item5" placeholder="Item 5" style="margin-top: 4px;">
-    </div>
-
-    <button type="button" onclick="enviarFicha()">✅ Confirmar e Enviar Ficha</button>
-
-  </form>
+  </div>
 
   <script>
     const tg = window.Telegram.WebApp;
     tg.expand();
 
+    // Mapeamento de Subraças / Clãs por Raça
+    const clasPorRaca = {
+      "Humano": ["Humano Comum", "Nobre Imperial", "Tribal / Nômade"],
+      "Elfo": ["Elfo da Floresta", "Elfo do Sol / Alto Elfo", "Elfo Negro (Drow)"],
+      "Orc": ["Orc de Batalha", "Orc Xamânico", "Meio-Orc"],
+      "Anão": ["Anão das Montanhas", "Anão dos Forgeiros"],
+      "Tiefling": ["Sangue Infernal", "Abissal"],
+      "Bestial": ["Clã Felino (Neko)", "Clã Canino/Lobo", "Clã Reptiliano"],
+      "Dracônico": ["Dragão Vermelho (Fogo)", "Dragão Azul (Raio)", "Dragão Branco (Gelo)"],
+      "Vampiro": ["Sangue Puro", "Neófito / Convertido"],
+      "Lobisomem": ["Alfa", "Guardião da Matilha"]
+    };
+
+    // Classes divididas por Tipo
     const classesData = {
       fisica: ["Guerreiro", "Espadachim", "Cavaleiro", "Escudeiro", "Atirador", "Ladino", "Assassino", "Trapaceiro", "Lutador", "Bárbaro", "Bucaneiro"],
       magica: ["Mago", "Feiticeiro", "Bardo", "Telepata", "Necromante", "Sacerdote", "Druida", "Joker", "Infernalista", "Monge"],
       hibrida: ["Shinobi", "Guerreiro Rúnico", "Paladino / Algoz", "Mestre de Armas", "Caçador de Aberrações", "Acadêmico", "Ruptor / Vagante"]
     };
 
+    let racaEscolhida = "";
+    let claEscolhido = "";
+    let classeEscolhida = "";
+
+    function selecionarRaca() {
+      racaEscolhida = document.getElementById("select-raca").value;
+      const btn = document.getElementById("btn-step1");
+      const sumRaca = document.getElementById("sum-raca");
+
+      if (racaEscolhida) {
+        sumRaca.textContent = racaEscolhida;
+        btn.disabled = false;
+        carregarClas(racaEscolhida);
+      } else {
+        sumRaca.textContent = "Pendente";
+        btn.disabled = true;
+      }
+    }
+
+    function carregarClas(raca) {
+      const selectCla = document.getElementById("select-cla");
+      selectCla.innerHTML = '<option value="">-- Selecione um Clã / Subraça --</option>';
+
+      const clas = clasPorRaca[raca] || ["Padrão / Sem Clã"];
+      clas.forEach(c => {
+        let opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        selectCla.appendChild(opt);
+      });
+
+      // Reseta a escolha de clã
+      claEscolhido = "";
+      document.getElementById("sum-cla").textContent = "Pendente";
+      document.getElementById("btn-step2").disabled = true;
+    }
+
+    function selecionarCla() {
+      claEscolhido = document.getElementById("select-cla").value;
+      const btn = document.getElementById("btn-step2");
+      const sumCla = document.getElementById("sum-cla");
+
+      if (claEscolhido) {
+        sumCla.textContent = claEscolhido;
+        btn.disabled = false;
+      } else {
+        sumCla.textContent = "Pendente";
+        btn.disabled = true;
+      }
+    }
+
     function carregarClasses() {
-      const cat = document.getElementById("categoriaClasse").value;
-      const selectClasse = document.getElementById("classe");
-      selectClasse.innerHTML = "";
+      const cat = document.getElementById("select-categoria").value;
+      const selectClasse = document.getElementById("select-classe");
+      selectClasse.innerHTML = '<option value="">-- Selecione uma Classe --</option>';
 
       classesData[cat].forEach(c => {
         let opt = document.createElement("option");
@@ -223,109 +273,44 @@
         selectClasse.appendChild(opt);
       });
 
-      atualizarClasse();
+      classeEscolhida = "";
+      document.getElementById("sum-classe").textContent = "Pendente";
+      document.getElementById("btn-step3").disabled = true;
     }
 
-    function atualizarClasse() {
-      const cat = document.getElementById("categoriaClasse").value;
-      const classe = document.getElementById("classe").value;
-      const boxHab = document.getElementById("boxHabilidades");
-      const boxMag = document.getElementById("boxMagias");
+    function selecionarClasse() {
+      classeEscolhida = document.getElementById("select-classe").value;
+      const btn = document.getElementById("btn-step3");
+      const sumClasse = document.getElementById("sum-classe");
 
-      if (cat === "fisica") {
-        document.getElementById("hp").value = "200";
-        document.getElementById("mp").value = "100";
-        boxHab.classList.remove("hidden");
-        boxMag.classList.add("hidden");
-      } else if (cat === "magica") {
-        document.getElementById("hp").value = "100";
-        document.getElementById("mp").value = "200";
-        boxHab.classList.add("hidden");
-        boxMag.classList.remove("hidden");
-      } else { // hibrida
-        document.getElementById("hp").value = "150";
-        document.getElementById("mp").value = "150";
-        boxHab.classList.remove("hidden");
-        boxMag.classList.remove("hidden");
-
-        if (classe === "Shinobi") {
-          document.getElementById("hab1").value = "Maestria em Selos de Mão Nv 1";
-          document.getElementById("hab2").value = "Ninjutsu Nv 1";
-          document.getElementById("hab3").value = "Hankyūaku Nv 1";
-          document.getElementById("mag1").placeholder = "Jutsu / Senjutsu Inicial";
-        }
-      }
-    }
-
-    function atualizarAlinhamento() {
-      const alin = document.getElementById("alinhamento").value;
-      const glorinsInput = document.getElementById("glorins");
-
-      if (alin.includes("Fidalgo")) {
-        glorinsInput.value = "5.000 G$ [Fidalgo]";
+      if (classeEscolhida) {
+        sumClasse.textContent = classeEscolhida;
+        btn.disabled = false;
       } else {
-        glorinsInput.value = "1.000 G$";
+        sumClasse.textContent = "Pendente";
+        btn.disabled = true;
       }
     }
 
-    function atualizarRaca() {
-      const raca = document.getElementById("raca").value;
-      const bonus = document.getElementById("bonusRaca");
-      // Bônus padrão atribuído ao escolher a raça
-      bonus.value = `Atributos e Passivas raciais de ${raca}`;
+    function proximoPasso(passo) {
+      document.getElementById("step-1").classList.add("hidden");
+      document.getElementById("step-2").classList.add("hidden");
+      document.getElementById("step-3").classList.add("hidden");
+
+      document.getElementById(`step-${passo}`).classList.remove("hidden");
+
+      if (passo === 3) {
+        carregarClasses();
+      }
     }
 
-    function enviarFicha() {
-      const nomePlayer = tg.initDataUnsafe?.user?.first_name || "Jogador";
-      
-      const cat = document.getElementById("categoriaClasse").value;
-      let habs = "";
-      let magias = "";
+    function passoAnterior(passo) {
+      document.getElementById("step-1").classList.add("hidden");
+      document.getElementById("step-2").classList.add("hidden");
+      document.getElementById("step-3").classList.add("hidden");
 
-      if (cat !== "magica") {
-        habs = `💪 • Habilidades:\n- ${document.getElementById("hab1").value}\n- ${document.getElementById("hab2").value}\n- ${document.getElementById("hab3").value}\n`;
-      }
-      if (cat !== "fisica") {
-        magias = `⚡ • Magias / Jutsus:\n- ${document.getElementById("mag1").value}\n- ${document.getElementById("mag2").value}\n- ${document.getElementById("mag3").value}\n`;
-      }
-
-      const fichaText = `📄 • Player: ${nomePlayer}
-🔰 • Nome: ${document.getElementById("nome").value}
-🧌 • Raça: ${document.getElementById("raca").value}
-🏹 • Classe: ${document.getElementById("classe").value}
-🩸 • Singularidade Inicial: ${document.getElementById("singularidade").value}
-🌀 • Eixo Vital: Mundano (Mana)
-🔸 • Alinhamento: ${document.getElementById("alinhamento").value}
-🚻 • Gênero: ${document.getElementById("genero").value}
-🎂 • Idade: ${document.getElementById("idade").value}
-📏 • Altura: ${document.getElementById("altura").value}
-⚖️ • Peso: ${document.getElementById("peso").value}
-💈 • Aparência: ${document.getElementById("aparencia").value}
-🎭 • Personalidade: ${document.getElementById("personalidade").value}
-📜 • História: ${document.getElementById("historia").value || "Nenhuma"}
-
-🔢 • Level: 0
-🔢 • XP: 0
-💰 • Glorins: ${document.getElementById("glorins").value}
-
-${habs}${magias}✨ • Bônus de Raça: ${document.getElementById("bonusRaca").value}
-
-🩸 • HP: ${document.getElementById("hp").value}
-🔮 • MP: ${document.getElementById("mp").value}
-
-🗝️ • Inventário Inicial:
-- ${document.getElementById("item1").value || "Vazio"}
-- ${document.getElementById("item2").value || "Vazio"}
-- ${document.getElementById("item3").value || "Vazio"}
-- ${document.getElementById("item4").value || "Vazio"}
-- ${document.getElementById("item5").value || "Vazio"}`;
-
-      tg.sendData(fichaText);
+      document.getElementById(`step-${passo}`).classList.remove("hidden");
     }
-
-    // Inicialização
-    carregarClasses();
-    atualizarRaca();
   </script>
 </body>
 </html>
