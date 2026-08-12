@@ -160,12 +160,26 @@
     <label for="select-raca">Escolha a Raça Base:</label>
     <select id="select-raca" onchange="selecionarRaca()">
       <option value="">-- Selecione uma Raça --</option>
-      <option value="Neko 🐯">Neko 🐯</option>
-      <option value="Humano 🧔🏻‍♂️">Humano 🧔🏻‍♂️</option>
-      <option value="Elfo 🧝🏼‍♂️">Elfo 🧝🏼‍♂️</option>
+      <option value="Humano 🧔🏻‍♂️">Humano 🧔🏻‍♂️👩🏻‍🦱</option>
+      <option value="Elfo 🧝🏼‍♂️">Elfo 🧝🏼‍♂️🧝🏻‍♂️</option>
       <option value="Orc 👹">Orc 👹</option>
       <option value="Bestial 🐺">Bestial 🐺</option>
-      <option value="Anão 🧙‍♂️">Anão 🧙‍♂️</option>
+      <option value="Anão 🧙‍♂️">Anão 🧙‍♂️🧙🏻</option>
+      <option value="Reptiliano 🐊">Reptiliano 🐊</option>
+      <option value="Tiefling 👿">Tiefling 👿</option>
+      <option value="Centauro 🐎">Centauro 🐎</option>
+      <option value="Yuan-ti 🐍">Yuan-ti 🐍</option>
+      <option value="Goblin 🧌">Goblin 🧌</option>
+      <option value="Fada 🧚‍♀️">Fada 🧚‍♀️</option>
+      <option value="Insectoide 🦗">Insectoide 🦗</option>
+      <option value="Dracônico 🐲">Dracônico 🐲</option>
+      <option value="Ikki 🦅">Ikki 🦅</option>
+      <option value="Aquafolk 🦈">Aquafolk 🦈</option>
+      <option value="Neko 🐯">Neko 🐯</option>
+      <option value="Boskobo 🌱">Boskobo 🌱</option>
+      <option value="Gnomo 🪨">Gnomo 🪨</option>
+      <option value="Mutante 🧬">Mutante 🧬</option>
+      <option value="Gigante 👣">Gigante 👣</option>
     </select>
     
     <div id="card-raca" class="info-card hidden"></div>
@@ -209,7 +223,7 @@
 
     <div id="card-classe" class="info-card hidden"></div>
 
-    <!-- Escolha da Mecânica de Classe (ex: Caminhos do Guerreiro) -->
+    <!-- Mecânica / Estilo da Classe -->
     <div id="wrapper-mecanica-classe" class="hidden">
       <label for="select-mecanica-classe">🎯 Escolha seu Estilo/Caminho da Classe:</label>
       <select id="select-mecanica-classe" onchange="selecionarMecanicaClasse()">
@@ -220,7 +234,7 @@
 
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
-      <button class="btn btn-next" id="btn-step3" onclick="alert('Raça, Clã e Classe configurados!')" disabled>Avançar ➡️</button>
+      <button class="btn btn-next" id="btn-step3" onclick="alert('Seleções concluídas com sucesso!')" disabled>Avançar ➡️</button>
     </div>
   </div>
 
@@ -228,53 +242,260 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // BANCO DE DADOS DE RAÇAS & CLÃS
+    // BANCO DE DADOS DE RAÇAS E CLÃS
     const racasDB = {
+      "Humano 🧔🏻‍♂️": {
+        expectativa: "Até 100 anos",
+        pesoAltura: "40kg a 120kg | 150cm a 210cm",
+        descricao: "Versáteis e adaptáveis, a raça humana compensa a ausência de traços exóticos com grande determinação e facilidade de aprendizado.",
+        br: "Adaptabilidade Lv1 e Força de Vontade Lv1",
+        clas: {
+          "Clã Nobre Imperial": { caracteristicas: "Linhagem aristocrática e diplomática.", br: "Lábia Lv1 e Recursos Iniciais" },
+          "Clã Nômade": { caracteristicas: "Habitantes de terras selvagens e rotas comerciais.", br: "Sobrevivência Lv1 e Agilidade Lv1" }
+        }
+      },
+      "Elfo 🧝🏼‍♂️": {
+        expectativa: "Até 700 anos",
+        pesoAltura: "45kg a 80kg | 165cm a 210cm",
+        descricao: "Seres esguios e graciosos com forte afinidade natural à magia e aos sentidos apurados.",
+        br: "Visão Noturna Lv1 e Agilidade Lv1",
+        clas: {
+          "Elfo da Floresta": { caracteristicas: "Mestres do rastreamento e camuflagem.", br: "Furtividade Lv1 e Prontidão Lv1" },
+          "Alto Elfo": { caracteristicas: "Estudiosos das artes arcanas superiores.", br: "Conhecimento Arcano Lv1 e Mana Lv1" },
+          "Elfo Negro (Drow)": { caracteristicas: "Habitantes das profundezas subterrâneas.", br: "Resistência Mágica Lv1 e Percepção Lv1" }
+        }
+      },
+      "Orc 👹": {
+        expectativa: "Até 80 anos",
+        pesoAltura: "80kg a 200kg | 180cm a 250cm",
+        descricao: "Guerreiros robustos de físico intimidador e resiliência sem igual em combate.",
+        br: "Força Lv1 e Resistência Física Lv1",
+        clas: {
+          "Orc de Batalha": { caracteristicas: "Focados em combate brutal de linha de frente.", br: "Intimidação Lv1 e Força Lv1" },
+          "Orc Xamânico": { caracteristicas: "Conectados aos espíritos ancestrais.", br: "Resistência Mágica Lv1 e Espiritualidade Lv1" }
+        }
+      },
+      "Bestial 🐺": {
+        expectativa: "Até 120 anos",
+        pesoAltura: "50kg a 180kg | 160cm a 220cm",
+        descricao: "Humanoides com características de predadores mamíferos e instintos afiados.",
+        br: "Sentidos Aguçados Lv1 e Agilidade Lv1",
+        clas: {
+          "Clã Canino": { caracteristicas: "Rastreamento impecável e lealdade de matilha.", br: "Percepção Lv1 e Vigor Lv1" },
+          "Clã Ursino": { caracteristicas: "Físico pesado e alta densidade muscular.", br: "Força Lv1 e Resistência Física Lv1" }
+        }
+      },
+      "Anão 🧙‍♂️": {
+        expectativa: "Até 350 anos",
+        pesoAltura: "60kg a 110kg | 120cm a 150cm",
+        descricao: "Mestres da forja e da mineração, conhecidos por sua constituição inabalável.",
+        br: "Resistência a Veneno Lv1 e Força Lv1",
+        clas: {
+          "Anão das Montanhas": { caracteristicas: "Especialistas em combate defensivo e rochas.", br: "Resistência Física Lv1 e Armadura Lv1" },
+          "Anão Forgeiro": { caracteristicas: "Mestres artesãos de metais e runas.", br: "Ofício/Forja Lv1 e Avaliação Lv1" }
+        }
+      },
+      "Reptiliano 🐊": {
+        expectativa: "Até 150 anos",
+        pesoAltura: "70kg a 190kg | 170cm a 230cm",
+        descricao: "Humanoides escamados com alta capacidade regenerativa e sangue frio.",
+        br: "Armadura Natural (Escamas) Lv1 e Camuflagem Lv1",
+        clas: {
+          "Clã Couro Duro": { caracteristicas: "Escamas extremamente densas.", br: "Resistência Física Lv1 e Vigor Lv1" },
+          "Clã Peçonhento": { caracteristicas: "Glandulas produtoras de toxinas sintéticas.", br: "Resistência a Veneno Lv1 e Ataque Venenoso Lv1" }
+        }
+      },
+      "Tiefling 👿": {
+        expectativa: "Até 110 anos",
+        pesoAltura: "50kg a 100kg | 160cm a 200cm",
+        descricao: "Seres marcados por uma herança infernal, possuindo chifres e cauda.",
+        br: "Resistência a Fogo Lv1 e Visão Noturna Lv1",
+        clas: {
+          "Sangue Abissal": { caracteristicas: "Conexão com as chamas e destruição.", br: "Pirocinese Basica Lv1 e Intimidação Lv1" },
+          "Sangue Infernal": { caracteristicas: "Lábia persuasiva e manipulação das sombras.", br: "Lábia Lv1 e Enganação Lv1" }
+        }
+      },
+      "Centauro 🐎": {
+        expectativa: "Até 100 anos",
+        pesoAltura: "300kg a 600kg | 180cm a 240cm",
+        descricao: "Metade humano e metade equino, combinando velocidade com alta capacidade de carga.",
+        br: "Velocidade de Deslocamento Lv1 e Carga Ampla Lv1",
+        clas: {
+          "Centauro Guerreiro": { caracteristicas: "Cavalaria pesada imparável.", br: "Força de Impacto Lv1 e Vigor Lv1" },
+          "Centauro Nômade": { caracteristicas: "Arqueria em movimento e patrulha.", br: "Precisão Lv1 e Agilidade Lv1" }
+        }
+      },
+      "Yuan-ti 🐍": {
+        expectativa: "Até 140 anos",
+        pesoAltura: "45kg a 110kg | 160cm a 220cm",
+        descricao: "Seres serpentinos frios, calculistas e extremamente imunes a toxinas.",
+        br: "Imunidade Parcial a Venenos Lv1 e Percepção Térmica Lv1",
+        clas: {
+          "Yuan-ti Puro": { caracteristicas: "Aparência majoritariamente humana com olhos serpentinos.", br: "Persuasão Lv1 e Agilidade Lv1" },
+          "Yuan-ti Mestiço": { caracteristicas: "Cauda serpentina no lugar das pernas.", br: "Bote Rápido Lv1 e Furtividade Lv1" }
+        }
+      },
+      "Goblin 🧌": {
+        expectativa: "Até 50 anos",
+        pesoAltura: "25kg a 45kg | 90cm a 130cm",
+        descricao: "Pequenos, astutos e incrivelmente rápidos para se esquivar de perigos.",
+        br: "Esquiva Lv1 e Furtividade Lv1",
+        clas: {
+          "Goblin das Cavernas": { caracteristicas: "Especialistas em emboscadas no escuro.", br: "Visão no Escuro Lv1 e Agilidade Lv1" },
+          "Goblin Inventor": { caracteristicas: "Aparelhagens improvisadas e bombas.", br: "Ofício/Engenharias Lv1 e Astúcia Lv1" }
+        }
+      },
+      "Fada 🧚‍♀️": {
+        expectativa: "Até 300 anos",
+        pesoAltura: "5kg a 30kg | 30cm a 100cm",
+        descricao: "Pequenas criaturas aladas fortemente ligadas ao plano feérico.",
+        br: "Voo Natural Lv1 e Magia Feérica Lv1",
+        clas: {
+          "Fada da Luz": { caracteristicas: "Emissão de luz purificadora e apoio.", br: "Fotocinese Basica Lv1 e Cura Lv1" },
+          "Fada da Natureza": { caracteristicas: "Comunicação com fauna e flora.", br: "Fitocinese Basica Lv1 e Empatia Animal Lv1" }
+        }
+      },
+      "Insectoide 🦗": {
+        expectativa: "Até 60 anos",
+        pesoAltura: "40kg a 150kg | 140cm a 220cm",
+        descricao: "Humanoides cobertos por quitina com múltiplos membros ou antenas.",
+        br: "Carapaça Quitinosa Lv1 e Percepção Vibracional Lv1",
+        clas: {
+          "Insectoide Blindado": { caracteristicas: "Quitina ultra resistente como armadura de placas.", br: "Resistência Física Lv1 e Defesa Lv1" },
+          "Insectoide Voador": { caracteristicas: "Asas de membranas ágeis para voo rápido.", br: "Agilidade Aérea Lv1 e Esquiva Lv1" }
+        }
+      },
+      "Dracônico 🐲": {
+        expectativa: "Até 500 anos",
+        pesoAltura: "80kg a 220kg | 180cm a 260cm",
+        descricao: "Descendentes diretos dos dragões soberanos com sopro elemental.",
+        br: "Sopro Elemental Lv1 e Escamas Dracônicas Lv1",
+        clas: {
+          "Dracônico Vermelho": { caracteristicas: "Sopro e resistência ao fogo.", br: "Resistência a Fogo Lv1 e Dano de Chamas Lv1" },
+          "Dracônico Azul": { caracteristicas: "Sopro e resistência a descargas elétricas.", br: "Resistência a Raio Lv1 e Dano Elétrico Lv1" }
+        }
+      },
+      "Ikki 🦅": {
+        expectativa: "Até 90 anos",
+        pesoAltura: "40kg a 80kg | 160cm a 200cm",
+        descricao: "Humanoides aviários com asas grandes e visão telescópica.",
+        br: "Voo Acelerado Lv1 e Visão Longínqua Lv1",
+        clas: {
+          "Ikki dos Picos": { caracteristicas: "Habitantes de grandes altitudes.", br: "Resistência a Frio Lv1 e Agilidade Lv1" },
+          "Ikki Caçador": { caracteristicas: "Rasantes precisos e garras afiadas.", br: "Precisão Lv1 e Perfuração Lv1" }
+        }
+      },
+      "Aquafolk 🦈": {
+        expectativa: "Até 120 anos",
+        pesoAltura: "60kg a 160kg | 165cm a 220cm",
+        descricao: "Nativos das profundezas oceânicas adaptados à vida anfíbia.",
+        br: "Respiração Aquática Lv1 e Natação Rápida Lv1",
+        clas: {
+          "Aquafolk das Profundezas": { caracteristicas: "Resistentes à alta pressão aquática e escuridão.", br: "Resistência Física Lv1 e Visão Abissal Lv1" },
+          "Aquafolk Coral": { caracteristicas: "Comunicação com vida marinha.", br: "Hidrocinese Basica Lv1 e Empatia Aquática Lv1" }
+        }
+      },
       "Neko 🐯": {
         expectativa: "Até 100 anos",
         pesoAltura: "Até 300kg e 240cm",
         descricao: "Felinos humanoides de diversas espécies, tamanhos e formatos.",
         br: "Agilidade Lv1 e Sentidos Aguçados Lv1",
         clas: {
-          "Clã Savana": {
-            caracteristicas: "Leões, tigres, panteras, leopardos, onças",
-            br: "Força Lv1 e Sentidos Aguçados Lv1"
-          },
-          "Clã Gatuno": {
-            caracteristicas: "Gatos, Guepardos, Pumas, Linces etc",
-            br: "Agilidade Lv1 e Reflexos Lv1"
-          }
+          "Clã Savana": { caracteristicas: "Leões, tigres, panteras, leopardos, onças.", br: "Força Lv1 e Sentidos Aguçados Lv1" },
+          "Clã Gatuno": { caracteristicas: "Gatos, Guepardos, Pumas, Linces etc.", br: "Agilidade Lv1 e Reflexos Lv1" }
         }
       },
-      "Humano 🧔🏻‍♂️": {
-        expectativa: "70 a 90 anos",
-        pesoAltura: "50kg a 100kg e 150cm a 200cm",
-        descricao: "Versáteis e adaptáveis, possuem grande força de vontade e ambição.",
-        br: "Adaptabilidade (+1 Ponto de Atributo Livre)",
+      "Boskobo 🌱": {
+        expectativa: "Até 400 anos",
+        pesoAltura: "50kg a 200kg | 150cm a 250cm",
+        descricao: "Humanoides vegetais compostos de madeira, raízes e folhas sintéticas.",
+        br: "Fotossíntese (Regeneração Solar) Lv1 e Fibra Vegetal Lv1",
         clas: {
-          "Nobre Imperial": {
-            caracteristicas: "Linhagem de governantes e generais de guerra.",
-            br: "Lábia Lv1 e Recursos Iniciais"
-          },
-          "Nômade": {
-            caracteristicas: "Sobreviventes das terras selvagens.",
-            br: "Sobrevivência Lv1 e Resistência a Clima Lv1"
-          }
+          "Boskobo Guardião": { caracteristicas: "Madeira densa como tronco de carvalho.", br: "Resistência Física Lv1 e Vigor Lv1" },
+          "Boskobo Botânico": { caracteristicas: "Manipulação de espinhos e toxinas florais.", br: "Fitocinese Basica Lv1 e Toxina Lv1" }
+        }
+      },
+      "Gnomo 🪨": {
+        expectativa: "Até 250 anos",
+        pesoAltura: "20kg a 40kg | 90cm a 120cm",
+        descricao: "Pequenos inventores, curiosos e com forte intuição arcana.",
+        br: "Curiosidade Genial Lv1 e Ilusão Menor Lv1",
+        clas: {
+          "Gnomo das Rochas": { caracteristicas: "Resistência corporal aumentada.", br: "Resistência Física Lv1 e Defesa Mágica Lv1" },
+          "Gnomo Mecânico": { caracteristicas: "Criação de mecanismos e aparelhos.", br: "Engenharia Lv1 e Ofício Lv1" }
+        }
+      },
+      "Mutante 🧬": {
+        expectativa: "Até 90 anos",
+        pesoAltura: "Varie amplamente",
+        descricao: "Seres cuja estrutura genética sofreu alterações anômalas.",
+        br: "Instabilidade Genética (Atributo Variável) Lv1",
+        clas: {
+          "Mutante Físico": { caracteristicas: "Alterações corporais ostensivas.", br: "Força Lv1 e Regeneração Leve Lv1" },
+          "Mutante Elemental": { caracteristicas: "Manifestação direta de energia no corpo.", br: "Resistência Elemental Lv1 e Projeção Lv1" }
+        }
+      },
+      "Gigante 👣": {
+        expectativa: "Até 200 anos",
+        pesoAltura: "200kg a 800kg | 250cm a 400cm",
+        descricao: "Humanoides de estatura colossal com poder de impacto esmagador.",
+        br: "Estatura Colossal Lv1 e Força Bruta Lv1",
+        clas: {
+          "Gigante da Montanha": { caracteristicas: "Pele dura como rocha firme.", br: "Resistência Física Lv1 e Impacto Lv1" },
+          "Gigante dos Vales": { caracteristicas: "Passadas largas para longas viagens.", br: "Vigor Lv1 e Carga Extrema Lv1" }
         }
       }
     };
 
-    // BANCO DE DADOS DE CLASSES & MECÂNICAS
+    // BANCO DE DADOS DE CLASSES E SUAS MECÂNICAS
     const classesDB = {
       fisica: {
         "Guerreiro": {
-          descricao: "Os Guerreiros são mestres absolutos do combate corpo a corpo e versáteis no uso de diversas armas, incluindo espadas, machados, maças e lanças. Conhecidos por sua força bruta inabalável e pela habilidade de enfrentar múltiplos inimigos ao mesmo tempo, eles são a linha de frente que esmaga as fileiras adversárias.",
+          descricao: "Os Guerreiros são mestres absolutos do combate corpo a corpo e versáteis no uso de diversas armas, incluindo espadas, machados, maças e lanças. Conhecidos por sua força bruta inabalável e pela habilidade de enfrentar múltiplos inimigos ao mesmo tempo.",
           sugeridas: ["Maestria com Arma (Leve/Média/Pesada)", "Força", "Resistência Física", "Destreza"],
           mecanicaNome: "Estilos de Combate do Guerreiro",
           caminhos: {
             "Caminho do Mestre de Armas": "O guerreiro começa com uma Maestria Universal como uma das habilidades iniciais, permitindo utilizar qualquer arma (somente metade do nível da maestria se aplica).",
             "Caminho do Destruidor de Exércitos": "O guerreiro recebe um bônus na sua maestria equivalente a metade do seu nível de Força.",
             "Caminho da Dança das Lâminas": "O guerreiro recebe um bônus de 1.3x em Destreza e Reflexos quando enfrentando 2 ou mais inimigos (caso não tenha alguma, recebe Lv1)."
+          }
+        },
+        "Espadachim": {
+          descricao: "Especialistas na arte da lâmina, priorizando velocidade, cortes precisos e postura de combate elegante.",
+          sugeridas: ["Maestria com Espada", "Agilidade", "Reflexos", "Corte Preciso"],
+          mecanicaNome: "Estilo de Lâmina",
+          caminhos: {
+            "Estilo Lâmina Única": "Aumenta a precisão e o dano crítico com apenas uma mão livre.",
+            "Estilo Duas Espadas (Nitoryu)": "Permite realizar um segundo ataque rápido no mesmo turno com penalidade reduzida."
+          }
+        },
+        "Bárbaro": {
+          descricao: "Lutadores movidos por fúria incontrolável e instinto selvagem, ignorando a dor em prol de dano devastador.",
+          sugeridas: ["Fúria de Batalha", "Força", "Resistência a Dor", "Golpe Esmagador"],
+          mecanicaNome: "Sintonia da Fúria",
+          caminhos: {
+            "Fúria Inabalável": "Ganha bônus de resistência física enquanto a Fúria estiver ativa.",
+            "Fúria Devastadora": "Aumenta o multiplicador de dano crítico corporal durante a Fúria."
+          }
+        }
+      },
+      magica: {
+        "Mago": {
+          descricao: "Estudiosos profundos das leis arcanas que canalizam mana pura para invocar feitiços devastadores.",
+          sugeridas: ["Conhecimento Arcano", "Bola de Fogo", "Escudo Arcano", "Mana Aguçada"],
+          mecanicaNome: "Especialização Arcana",
+          caminhos: {
+            "Mago Evocador": "Aumenta o dano de magias elementais em área.",
+            "Mago do Encantamento": "Aumenta a duração e eficiência de buffs e barreiras."
+          }
+        },
+        "Necromante": {
+          descricao: "Convocadores das artes proibidas que manipulam a energia da morte, ossos e almas.",
+          sugeridas: ["Invocação de Esqueletos", "Toque Necrótico", "Dreno de Vida"],
+          mecanicaNome: "Domínio dos Mortos",
+          caminhos: {
+            "Mestre das Hordas": "Aumenta o limite de servos convocados simultaneamente.",
+            "Lorde da Sombra": "Aumenta o poder dos feitiços de dreno vital direto."
           }
         }
       },
@@ -284,8 +505,17 @@
           sugeridas: ["Maestria em Selos de Mão", "Ninjutsu", "Senjutsu", "Hankyūaku"],
           mecanicaNome: "Escolha de Ninjutsu Inicial",
           caminhos: {
-            "Taijutsu + Kenjutsu": "Combate corpo a corpo e uso avançado de lâminas.",
-            "Taijutsu + Bukijutsu": "Combate corpo a corpo e armas arremessáveis (Kunais/Shurikens)."
+            "Taijutsu + Kenjutsu": "Combate corpo a corpo avançado e uso de espadas.",
+            "Taijutsu + Bukijutsu": "Artes marciais corporais combinadas com projéteis ninjas (Kunais/Shurikens)."
+          }
+        },
+        "Paladino / Algoz": {
+          descricao: "Guerreiros sagrados ou profanos que unem armaduras pesadas e combate corpo a corpo a milagres divinos.",
+          sugeridas: ["Golpe Divino", "Escudo da Fé", "Imposição de Mãos"],
+          mecanicaNome: "Juramento Sagrado / Profano",
+          caminhos: {
+            "Caminho da Devoção (Paladino)": "Aumenta cura e cura e barreiras protetoras aos aliados.",
+            "Caminho da Vingança (Algoz)": "Converte dano recebido em bônus de dano de chamas sagradas/profanas."
           }
         }
       }
@@ -409,7 +639,6 @@
         `;
         card.classList.remove("hidden");
 
-        // Carrega as opções de Caminho/Mecânica
         selectMecanica.innerHTML = '<option value="">-- Escolha um Caminho --</option>';
         if (info.caminhos) {
           Object.keys(info.caminhos).forEach(cam => {
