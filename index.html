@@ -28,7 +28,7 @@
     }
     #summary-header h3 {
       margin: 0 0 8px 0;
-      font-size: 14px;
+      font-size: 13px;
       color: #ffca28;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -36,23 +36,24 @@
     .summary-grid {
       display: flex;
       justify-content: space-between;
-      gap: 8px;
-      font-size: 13px;
+      gap: 6px;
+      font-size: 12px;
     }
     .summary-item {
       background: #2a2a2a;
-      padding: 6px 10px;
+      padding: 6px 8px;
       border-radius: 6px;
       flex: 1;
       text-align: center;
     }
     .summary-item span {
       display: block;
-      font-size: 11px;
+      font-size: 10px;
       color: #aaa;
     }
     .summary-item strong {
       color: #4CAF50;
+      font-size: 12px;
     }
 
     /* Passos / Telas */
@@ -134,15 +135,26 @@
     <label for="select-raca">Escolha a Raça Base do seu personagem:</label>
     <select id="select-raca" onchange="selecionarRaca()">
       <option value="">-- Selecione uma Raça --</option>
-      <option value="Humano">Humano</option>
-      <option value="Elfo">Elfo</option>
-      <option value="Orc">Orc</option>
-      <option value="Anão">Anão</option>
-      <option value="Tiefling">Tiefling</option>
-      <option value="Bestial">Bestial</option>
-      <option value="Dracônico">Dracônico</option>
-      <option value="Vampiro">Vampiro</option>
-      <option value="Lobisomem">Lobisomem</option>
+      <option value="Humano 🧔🏻‍♂️">Humano 🧔🏻‍♂️👩🏻‍🦱</option>
+      <option value="Elfo 🧝🏼‍♂️">Elfo 🧝🏼‍♂️🧝🏻‍♂️</option>
+      <option value="Orc 👹">Orc 👹</option>
+      <option value="Bestial 🐺">Bestial 🐺</option>
+      <option value="Anão 🧙‍♂️">Anão 🧙‍♂️🧙🏻</option>
+      <option value="Reptiliano 🐊">Reptiliano 🐊</option>
+      <option value="Tiefling 👿">Tiefling 👿</option>
+      <option value="Centauro 🐎">Centauro 🐎</option>
+      <option value="Yuan-ti 🐍">Yuan-ti 🐍</option>
+      <option value="Goblin 🧌">Goblin 🧌</option>
+      <option value="Fada 🧚‍♀️">Fada 🧚‍♀️</option>
+      <option value="Insectoide 🦗">Insectoide 🦗</option>
+      <option value="Dracônico 🐲">Dracônico 🐲</option>
+      <option value="Ikki 🦅">Ikki 🦅</option>
+      <option value="Aquafolk 🦈">Aquafolk 🦈</option>
+      <option value="Neko 🐯">Neko 🐯</option>
+      <option value="Boskobo 🌱">Boskobo 🌱</option>
+      <option value="Gnomo 🪨">Gnomo 🪨</option>
+      <option value="Mutante 🧬">Mutante 🧬</option>
+      <option value="Gigante 👣">Gigante 👣</option>
     </select>
     
     <div class="nav-buttons">
@@ -153,7 +165,7 @@
   <!-- ETAPA 2: SELEÇÃO DE CLÃ / SUBRAÇA -->
   <div id="step-2" class="step-box hidden">
     <h2 class="step-title">Etapa 2: Clã / Subraça</h2>
-    <label for="select-cla">Escolha a Subraça ou Clã:</label>
+    <label for="select-cla">Escolha o Clã ou Subraça:</label>
     <select id="select-cla" onchange="selecionarCla()">
       <option value="">-- Selecione primeiro a raça --</option>
     </select>
@@ -182,7 +194,7 @@
 
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
-      <button class="btn btn-next" id="btn-step3" onclick="alert('Etapa de visualização concluída!')" disabled>Próxima Etapa ➡️</button>
+      <button class="btn btn-next" id="btn-step3" onclick="alert('Raça, Clã e Classe configurados!')" disabled>Próxima Etapa ➡️</button>
     </div>
   </div>
 
@@ -190,20 +202,30 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Mapeamento de Subraças / Clãs por Raça
+    // Mapeamento dinâmico de Subraças / Clãs por Raça Oficial
     const clasPorRaca = {
-      "Humano": ["Humano Comum", "Nobre Imperial", "Tribal / Nômade"],
-      "Elfo": ["Elfo da Floresta", "Elfo do Sol / Alto Elfo", "Elfo Negro (Drow)"],
-      "Orc": ["Orc de Batalha", "Orc Xamânico", "Meio-Orc"],
-      "Anão": ["Anão das Montanhas", "Anão dos Forgeiros"],
-      "Tiefling": ["Sangue Infernal", "Abissal"],
-      "Bestial": ["Clã Felino (Neko)", "Clã Canino/Lobo", "Clã Reptiliano"],
-      "Dracônico": ["Dragão Vermelho (Fogo)", "Dragão Azul (Raio)", "Dragão Branco (Gelo)"],
-      "Vampiro": ["Sangue Puro", "Neófito / Convertido"],
-      "Lobisomem": ["Alfa", "Guardião da Matilha"]
+      "Humano 🧔🏻‍♂️": ["Humano Comum", "Nobre Imperial", "Nômade / Tribal"],
+      "Elfo 🧝🏼‍♂️": ["Elfo da Floresta", "Alto Elfo", "Elfo Negro (Drow)"],
+      "Orc 👹": ["Orc Guerreador", "Orc Xamânico", "Meio-Orc"],
+      "Bestial 🐺": ["Clã Canino", "Clã Felino", "Clã Ursino"],
+      "Anão 🧙‍♂️": ["Anão das Montanhas", "Anão Forgeiro"],
+      "Reptiliano 🐊": ["Reptiliano de Couro Duro", "Reptiliano Venenoso"],
+      "Tiefling 👿": ["Sangue Abissal", "Sangue Infernal"],
+      "Centauro 🐎": ["Centauro Guerreiro", "Centauro Nômade"],
+      "Yuan-ti 🐍": ["Yuan-ti Puro", "Yuan-ti Mestiço"],
+      "Goblin 🧌": ["Goblin das Cavernas", "Goblin Inventor"],
+      "Fada 🧚‍♀️": ["Fada da Luz", "Fada da Natureza"],
+      "Insectoide 🦗": ["Insectoide Blindado", "Insectoide Voador"],
+      "Dracônico 🐲": ["Dracônico Vermelho (Fogo)", "Dracônico Azul (Raio)", "Dracônico Branco (Gelo)"],
+      "Ikki 🦅": ["Ikki dos Picos", "Ikki Caçador"],
+      "Aquafolk 🦈": ["Aquafolk das Profundezas", "Aquafolk Coral"],
+      "Neko 🐯": ["Neko Ágil", "Neko Místico"],
+      "Boskobo 🌱": ["Boskobo Guardião", "Boskobo Botânico"],
+      "Gnomo 🪨": ["Gnomo das Rochas", "Gnomo Mecânico"],
+      "Mutante 🧬": ["Mutante Físico", "Mutante Elemental"],
+      "Gigante 👣": ["Gigante da Montanha", "Gigante dos Vales"]
     };
 
-    // Classes divididas por Tipo
     const classesData = {
       fisica: ["Guerreiro", "Espadachim", "Cavaleiro", "Escudeiro", "Atirador", "Ladino", "Assassino", "Trapaceiro", "Lutador", "Bárbaro", "Bucaneiro"],
       magica: ["Mago", "Feiticeiro", "Bardo", "Telepata", "Necromante", "Sacerdote", "Druida", "Joker", "Infernalista", "Monge"],
@@ -233,7 +255,7 @@
       const selectCla = document.getElementById("select-cla");
       selectCla.innerHTML = '<option value="">-- Selecione um Clã / Subraça --</option>';
 
-      const clas = clasPorRaca[raca] || ["Padrão / Sem Clã"];
+      const clas = clasPorRaca[raca] || ["Subraça Padrão"];
       clas.forEach(c => {
         let opt = document.createElement("option");
         opt.value = c;
@@ -241,7 +263,6 @@
         selectCla.appendChild(opt);
       });
 
-      // Reseta a escolha de clã
       claEscolhido = "";
       document.getElementById("sum-cla").textContent = "Pendente";
       document.getElementById("btn-step2").disabled = true;
