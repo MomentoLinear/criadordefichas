@@ -21,14 +21,14 @@
       background: #1e1e1e;
       border: 1px solid #333;
       border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 20px;
+      padding: 10px;
+      margin-bottom: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.5);
       z-index: 100;
     }
     #summary-header h3 {
-      margin: 0 0 8px 0;
-      font-size: 13px;
+      margin: 0 0 6px 0;
+      font-size: 12px;
       color: #ffca28;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -37,11 +37,10 @@
       display: flex;
       justify-content: space-between;
       gap: 6px;
-      font-size: 12px;
     }
     .summary-item {
       background: #2a2a2a;
-      padding: 6px 8px;
+      padding: 6px;
       border-radius: 6px;
       flex: 1;
       text-align: center;
@@ -53,7 +52,7 @@
     }
     .summary-item strong {
       color: #4CAF50;
-      font-size: 12px;
+      font-size: 11px;
     }
 
     /* Passos / Telas */
@@ -61,6 +60,7 @@
       color: #ffca28;
       text-align: center;
       margin-bottom: 15px;
+      font-size: 18px;
     }
     .step-box {
       background: #181818;
@@ -74,7 +74,7 @@
       margin-bottom: 8px;
       color: #ddd;
     }
-    select, input {
+    select {
       width: 100%;
       padding: 12px;
       border-radius: 6px;
@@ -85,12 +85,34 @@
       font-size: 15px;
       margin-bottom: 15px;
     }
-    
+
+    /* Card Informativo Dinâmico */
+    .info-card {
+      background: #222;
+      border-left: 4px solid #ffca28;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .info-card p { margin: 4px 0; }
+    .info-card strong { color: #ffca28; }
+    .highlight-br {
+      background: #2e2600;
+      color: #ffe082;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 6px;
+      font-weight: bold;
+    }
+
     /* Botões de Navegação */
     .nav-buttons {
       display: flex;
       gap: 10px;
-      margin-top: 20px;
+      margin-top: 15px;
     }
     .btn {
       flex: 1;
@@ -132,31 +154,20 @@
   <!-- ETAPA 1: SELEÇÃO DE RAÇA -->
   <div id="step-1" class="step-box">
     <h2 class="step-title">Etapa 1: Seleção de Raça</h2>
-    <label for="select-raca">Escolha a Raça Base do seu personagem:</label>
+    <label for="select-raca">Escolha a Raça Base:</label>
     <select id="select-raca" onchange="selecionarRaca()">
       <option value="">-- Selecione uma Raça --</option>
-      <option value="Humano 🧔🏻‍♂️">Humano 🧔🏻‍♂️👩🏻‍🦱</option>
-      <option value="Elfo 🧝🏼‍♂️">Elfo 🧝🏼‍♂️🧝🏻‍♂️</option>
+      <option value="Neko 🐯">Neko 🐯</option>
+      <option value="Humano 🧔🏻‍♂️">Humano 🧔🏻‍♂️</option>
+      <option value="Elfo 🧝🏼‍♂️">Elfo 🧝🏼‍♂️</option>
       <option value="Orc 👹">Orc 👹</option>
       <option value="Bestial 🐺">Bestial 🐺</option>
-      <option value="Anão 🧙‍♂️">Anão 🧙‍♂️🧙🏻</option>
-      <option value="Reptiliano 🐊">Reptiliano 🐊</option>
-      <option value="Tiefling 👿">Tiefling 👿</option>
-      <option value="Centauro 🐎">Centauro 🐎</option>
-      <option value="Yuan-ti 🐍">Yuan-ti 🐍</option>
-      <option value="Goblin 🧌">Goblin 🧌</option>
-      <option value="Fada 🧚‍♀️">Fada 🧚‍♀️</option>
-      <option value="Insectoide 🦗">Insectoide 🦗</option>
-      <option value="Dracônico 🐲">Dracônico 🐲</option>
-      <option value="Ikki 🦅">Ikki 🦅</option>
-      <option value="Aquafolk 🦈">Aquafolk 🦈</option>
-      <option value="Neko 🐯">Neko 🐯</option>
-      <option value="Boskobo 🌱">Boskobo 🌱</option>
-      <option value="Gnomo 🪨">Gnomo 🪨</option>
-      <option value="Mutante 🧬">Mutante 🧬</option>
-      <option value="Gigante 👣">Gigante 👣</option>
+      <option value="Anão 🧙‍♂️">Anão 🧙‍♂️</option>
     </select>
     
+    <!-- Card de Informações da Raça -->
+    <div id="card-raca" class="info-card hidden"></div>
+
     <div class="nav-buttons">
       <button class="btn btn-next" id="btn-step1" onclick="proximoPasso(2)" disabled>Avançar ➡️</button>
     </div>
@@ -169,6 +180,9 @@
     <select id="select-cla" onchange="selecionarCla()">
       <option value="">-- Selecione primeiro a raça --</option>
     </select>
+
+    <!-- Card de Informações do Clã -->
+    <div id="card-cla" class="info-card hidden"></div>
 
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(1)">⬅️ Voltar</button>
@@ -192,9 +206,12 @@
       <option value="">-- Selecione uma Classe --</option>
     </select>
 
+    <!-- Card de Informações da Classe -->
+    <div id="card-classe" class="info-card hidden"></div>
+
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
-      <button class="btn btn-next" id="btn-step3" onclick="alert('Raça, Clã e Classe configurados!')" disabled>Próxima Etapa ➡️</button>
+      <button class="btn btn-next" id="btn-step3" onclick="alert('Próxima fase de preenchimento de detalhes!')" disabled>Avançar ➡️</button>
     </div>
   </div>
 
@@ -202,34 +219,58 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Mapeamento dinâmico de Subraças / Clãs por Raça Oficial
-    const clasPorRaca = {
-      "Humano 🧔🏻‍♂️": ["Humano Comum", "Nobre Imperial", "Nômade / Tribal"],
-      "Elfo 🧝🏼‍♂️": ["Elfo da Floresta", "Alto Elfo", "Elfo Negro (Drow)"],
-      "Orc 👹": ["Orc Guerreador", "Orc Xamânico", "Meio-Orc"],
-      "Bestial 🐺": ["Clã Canino", "Clã Felino", "Clã Ursino"],
-      "Anão 🧙‍♂️": ["Anão das Montanhas", "Anão Forgeiro"],
-      "Reptiliano 🐊": ["Reptiliano de Couro Duro", "Reptiliano Venenoso"],
-      "Tiefling 👿": ["Sangue Abissal", "Sangue Infernal"],
-      "Centauro 🐎": ["Centauro Guerreiro", "Centauro Nômade"],
-      "Yuan-ti 🐍": ["Yuan-ti Puro", "Yuan-ti Mestiço"],
-      "Goblin 🧌": ["Goblin das Cavernas", "Goblin Inventor"],
-      "Fada 🧚‍♀️": ["Fada da Luz", "Fada da Natureza"],
-      "Insectoide 🦗": ["Insectoide Blindado", "Insectoide Voador"],
-      "Dracônico 🐲": ["Dracônico Vermelho (Fogo)", "Dracônico Azul (Raio)", "Dracônico Branco (Gelo)"],
-      "Ikki 🦅": ["Ikki dos Picos", "Ikki Caçador"],
-      "Aquafolk 🦈": ["Aquafolk das Profundezas", "Aquafolk Coral"],
-      "Neko 🐯": ["Neko Ágil", "Neko Místico"],
-      "Boskobo 🌱": ["Boskobo Guardião", "Boskobo Botânico"],
-      "Gnomo 🪨": ["Gnomo das Rochas", "Gnomo Mecânico"],
-      "Mutante 🧬": ["Mutante Físico", "Mutante Elemental"],
-      "Gigante 👣": ["Gigante da Montanha", "Gigante dos Vales"]
+    // BANCO DE DADOS DAS RAÇAS
+    const racasDB = {
+      "Neko 🐯": {
+        expectativa: "Até 100 anos",
+        pesoAltura: "Até 300kg e 240cm",
+        descricao: "Felinos humanoides de diversas espécies, tamanhos e formatos.",
+        br: "Agilidade Lv1 e Sentidos Aguçados Lv1",
+        clas: {
+          "Clã Savana": {
+            caracteristicas: "Leões, tigres, panteras, leopardos, onças",
+            br: "Força Lv1 e Sentidos Aguçados Lv1"
+          },
+          "Clã Gatuno": {
+            caracteristicas: "Gatos, Guepardos, Pumas, Linces etc",
+            br: "Agilidade Lv1 e Reflexos Lv1"
+          }
+        }
+      },
+      "Humano 🧔🏻‍♂️": {
+        expectativa: "70 a 90 anos",
+        pesoAltura: "50kg a 100kg e 150cm a 200cm",
+        descricao: "Versáteis e adaptáveis, possuem grande força de vontade e ambição.",
+        br: "Adaptabilidade (Escolha +1 ponto em qualquer atributo inicial)",
+        clas: {
+          "Nobre Imperial": {
+            caracteristicas: "Linhagem de governantes e generais de guerra.",
+            br: "Lábia Lv1 e Recursos Iniciais"
+          },
+          "Nômade": {
+            caracteristicas: "Sobreviventes das terras selvagens.",
+            br: "Sobrevivência Lv1 e Resistência a Clima Lv1"
+          }
+        }
+      }
     };
 
-    const classesData = {
-      fisica: ["Guerreiro", "Espadachim", "Cavaleiro", "Escudeiro", "Atirador", "Ladino", "Assassino", "Trapaceiro", "Lutador", "Bárbaro", "Bucaneiro"],
-      magica: ["Mago", "Feiticeiro", "Bardo", "Telepata", "Necromante", "Sacerdote", "Druida", "Joker", "Infernalista", "Monge"],
-      hibrida: ["Shinobi", "Guerreiro Rúnico", "Paladino / Algoz", "Mestre de Armas", "Caçador de Aberrações", "Acadêmico", "Ruptor / Vagante"]
+    // BANCO DE DADOS DAS CLASSES
+    const classesDB = {
+      fisica: {
+        "Guerreiro": {
+          descricao: "Mestres do combate direto, especialistas no uso de armas pesadas e armaduras.",
+          status: "HP: 200/lvl | MP: 100/lvl",
+          recurso: "3 Habilidades Físicas"
+        }
+      },
+      hibrida: {
+        "Shinobi": {
+          descricao: "Agentes das sombras que mesclam combate físico com o uso de Jutsus e Selos de Mão.",
+          status: "HP: 150/lvl | MP: 150/lvl",
+          recurso: "3 Habilidades (Selos/Luta) + 1 Senjutsu / Jutsu"
+        }
+      }
     };
 
     let racaEscolhida = "";
@@ -238,46 +279,69 @@
 
     function selecionarRaca() {
       racaEscolhida = document.getElementById("select-raca").value;
+      const card = document.getElementById("card-raca");
       const btn = document.getElementById("btn-step1");
       const sumRaca = document.getElementById("sum-raca");
 
-      if (racaEscolhida) {
+      if (racaEscolhida && racasDB[racaEscolhida]) {
+        const info = racasDB[racaEscolhida];
         sumRaca.textContent = racaEscolhida;
+
+        card.innerHTML = `
+          <p>⏳ <strong>Expectativa de Vida:</strong> ${info.expectativa}</p>
+          <p>📏 <strong>Peso e Altura:</strong> ${info.pesoAltura}</p>
+          <p>📝 <strong>Descrição:</strong> ${info.descricao}</p>
+          <div class="highlight-br">✨ B.R: ${info.br}</div>
+        `;
+        card.classList.remove("hidden");
         btn.disabled = false;
+
         carregarClas(racaEscolhida);
       } else {
         sumRaca.textContent = "Pendente";
+        card.classList.add("hidden");
         btn.disabled = true;
       }
     }
 
-    function carregarClas(raca) {
+    function carregarClas(racaKey) {
       const selectCla = document.getElementById("select-cla");
       selectCla.innerHTML = '<option value="">-- Selecione um Clã / Subraça --</option>';
 
-      const clas = clasPorRaca[raca] || ["Subraça Padrão"];
-      clas.forEach(c => {
-        let opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c;
-        selectCla.appendChild(opt);
-      });
+      if (racasDB[racaKey] && racasDB[racaKey].clas) {
+        Object.keys(racasDB[racaKey].clas).forEach(c => {
+          let opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          selectCla.appendChild(opt);
+        });
+      }
 
       claEscolhido = "";
       document.getElementById("sum-cla").textContent = "Pendente";
+      document.getElementById("card-cla").classList.add("hidden");
       document.getElementById("btn-step2").disabled = true;
     }
 
     function selecionarCla() {
       claEscolhido = document.getElementById("select-cla").value;
+      const card = document.getElementById("card-cla");
       const btn = document.getElementById("btn-step2");
       const sumCla = document.getElementById("sum-cla");
 
-      if (claEscolhido) {
+      if (racaEscolhida && claEscolhido && racasDB[racaEscolhida].clas[claEscolhido]) {
+        const info = racasDB[racaEscolhida].clas[claEscolhido];
         sumCla.textContent = claEscolhido;
+
+        card.innerHTML = `
+          <p>🐾 <strong>Características:</strong> ${info.caracteristicas}</p>
+          <div class="highlight-br">✨ B.R do Clã: ${info.br}</div>
+        `;
+        card.classList.remove("hidden");
         btn.disabled = false;
       } else {
         sumCla.textContent = "Pendente";
+        card.classList.add("hidden");
         btn.disabled = true;
       }
     }
@@ -287,28 +351,42 @@
       const selectClasse = document.getElementById("select-classe");
       selectClasse.innerHTML = '<option value="">-- Selecione uma Classe --</option>';
 
-      classesData[cat].forEach(c => {
-        let opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c;
-        selectClasse.appendChild(opt);
-      });
+      if (classesDB[cat]) {
+        Object.keys(classesDB[cat]).forEach(c => {
+          let opt = document.createElement("option");
+          opt.value = c;
+          opt.textContent = c;
+          selectClasse.appendChild(opt);
+        });
+      }
 
       classeEscolhida = "";
       document.getElementById("sum-classe").textContent = "Pendente";
+      document.getElementById("card-classe").classList.add("hidden");
       document.getElementById("btn-step3").disabled = true;
     }
 
     function selecionarClasse() {
+      const cat = document.getElementById("select-categoria").value;
       classeEscolhida = document.getElementById("select-classe").value;
+      const card = document.getElementById("card-classe");
       const btn = document.getElementById("btn-step3");
       const sumClasse = document.getElementById("sum-classe");
 
-      if (classeEscolhida) {
+      if (classeEscolhida && classesDB[cat][classeEscolhida]) {
+        const info = classesDB[cat][classeEscolhida];
         sumClasse.textContent = classeEscolhida;
+
+        card.innerHTML = `
+          <p>📜 <strong>Descrição:</strong> ${info.descricao}</p>
+          <p>📊 <strong>Status Base:</strong> ${info.status}</p>
+          <p>🎒 <strong>Recursos Iniciais:</strong> ${info.recurso}</p>
+        `;
+        card.classList.remove("hidden");
         btn.disabled = false;
       } else {
         sumClasse.textContent = "Pendente";
+        card.classList.add("hidden");
         btn.disabled = true;
       }
     }
