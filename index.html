@@ -464,36 +464,263 @@
     // CLASSES E SUAS MECÂNICAS
     const classesDB = {
       fisica: {
-        "Guerreiro": {
-          descricao: "Os Guerreiros são mestres absolutos do combate corpo a corpo e versáteis no uso de diversas armas, incluindo espadas, machados, maças e lanças. Conhecidos por sua força bruta inabalável e pela habilidade de enfrentar múltiplos inimigos ao mesmo tempo.",
-          sugeridas: ["Maestria com Arma", "Força", "Resistência Física", "Destreza"],
-          mecanicaNome: "Estilos de Combate",
+        "Guerreiro 🪓": {
+          descricao: "Mestres absolutos do combate corpo a corpo e versáteis no uso de diversas armas, incluindo espadas, machados, maças e lanças. Conhecidos por sua força bruta inabalável e pela habilidade de enfrentar múltiplos inimigos ao mesmo tempo, são a linha de frente que esmaga as fileiras adversárias.",
+          sugeridas: ["Maestria com Arma Leve/Média/Pesada", "Força", "Resistência Física", "Destreza"],
+          mecanicaNome: "Estilo de Combate (escolha permanente na criação)",
           caminhos: {
-            "Caminho do Mestre de Armas": "Começa com Maestria Universal (metade do nível se aplica a qualquer arma).",
-            "Caminho do Destruidor de Exércitos": "Bônus na maestria equivalente a metade do nível de Força.",
-            "Caminho da Dança das Lâminas": "Bônus de 1.3x em Destreza e Reflexos contra 2 ou mais inimigos."
+            "Caminho do Mestre de Armas": "Começa com Maestria Universal como habilidade inicial (usa qualquer arma, mas só metade do nível da maestria se aplica).",
+            "Caminho do Destruidor de Exércitos": "Recebe bônus na maestria equivalente a metade do nível de Força.",
+            "Caminho da Dança das Lâminas": "Recebe bônus de 1.3x em Destreza e Reflexos ao enfrentar 2 ou mais inimigos."
+          }
+        },
+        "Espadachim ⚔️": {
+          descricao: "Conhecidos pela velocidade e habilidade com espadas, frequentemente dominando o uso de duas espadas simultaneamente. Preferem roupas de batalha leves em vez de armaduras pesadas.",
+          sugeridas: ["Maestria com Espadas", "Velocidade", "Agilidade", "Destreza"],
+          mecanicaNome: "Estilo de Lâmina (escolha permanente na criação)",
+          caminhos: {
+            "Estilo do Vendaval Cortante": "Ataques ofensivos com a maestria recebem +50% de dano base (ex: maestria Nv20 causa dano como Nv30).",
+            "Estilo das Águas Espelhadas": "Movimentos defensivos (bloquear, aparar, redirecionar) recebem +50% no nível da maestria.",
+            "Estilo do Trovão Lampejante": "No instante do saque de um ataque (Iaijutsu), recebe bônus temporário de Destreza igual a 50% do nível da maestria."
+          }
+        },
+        "Cavaleiro ⚜️": {
+          descricao: "Conhecidos por honra e disciplina, vestem armaduras pesadas e frequentemente lutam montados, sendo defensores dedicados de seu reino com um código de conduta rigoroso.",
+          sugeridas: ["Cavalaria (controle sobre montarias)", "Maestria com Lanças", "Resistência de Combate", "Força"],
+          mecanicaNome: "Combate Montado e Corcel de Guerra",
+          caminhos: {
+            "Combate Montado": "Ao lutar montado (cavalo, leão, lobo gigante etc.), recebe 1.5x no nível de Força ou Maestria (escolhido na criação).",
+            "Corcel de Guerra": "Inicia com uma montaria (Força, Velocidade, Reflexos e Res. de Combate no nível 5), que ganha +1 nível a cada 5 níveis do Cavaleiro. Se morrer, pode adquirir nova montaria por 50k, herdando os mesmos níveis."
+          }
+        },
+        "Escudeiro 🛡️": {
+          descricao: "Especialistas em defesa, priorizando a proteção sobre o ataque. Usam armaduras pesadas e escudos grandes para proteger a si e aos aliados, sendo essenciais em qualquer linha de frente.",
+          sugeridas: ["Maestria com Escudo", "Reflexos", "Força", "Resistências em geral"],
+          mecanicaNome: "Muralha Viva",
+          caminhos: {
+            "Muralha Viva": "Recebe 1.5x de bônus em todas as resistências enquanto empunhar apenas escudo(s), sem armas."
+          }
+        },
+        "Atirador 🏹": {
+          descricao: "Mestres do combate à distância, preferindo eliminar o inimigo antes de serem vistos. Sejam arcos, bestas ou estilingues, transformam qualquer projétil em um golpe certeiro através da calma sob pressão e do controle sobre respiração, vento e distância.",
+          sugeridas: ["Precisão", "Visão Aguçada", "Maestria", "Destreza"],
+          mecanicaNome: "Atirador Habilidoso",
+          caminhos: {
+            "Atirador Habilidoso": "Recebe 1.5x do nível de Precisão como bônus, e a velocidade dos projéteis é igual ao nível da maestria."
+          }
+        },
+        "Ladino 👤": {
+          descricao: "Desde a juventude possuem o irresistível desejo de tomar as coisas dos outros. Sempre espertos, bolam o melhor plano para cometer o assalto perfeito.",
+          sugeridas: ["Mãos Leves", "Furtividade", "Velocidade", "Destreza"],
+          mecanicaNome: "Habilidades de Ladrão",
+          caminhos: {
+            "Olho Clínico para o Ouro": "1x por missão/evento, rola 1d20; tirando 10+, descobre onde estão os objetos de valor no cômodo.",
+            "Especialista em Ferramentas": "Bônus de 1.5x em Mãos Leves ao usar ferramentas de ladrão (portas trancadas, cofres, armadilhas)."
+          }
+        },
+        "Assassino 🥷🏻": {
+          descricao: "Especialistas em eliminar alvos com precisão e discrição, treinados para assassinatos rápidos e eficazes, geralmente em troca de recompensas ou objetivos específicos.",
+          sugeridas: ["Maestria em Assassinato", "Agilidade", "Furtividade", "Resistência a Venenos"],
+          mecanicaNome: "Fantasma",
+          caminhos: {
+            "Fantasma": "Recebe metade do nível de Furtividade como Ocultação Mágica."
+          }
+        },
+        "Trapaceiro 💬": {
+          descricao: "Mestres do engano e da manipulação, especializados em roubar, enganar e aplicar truques rápidos para obter vantagem sobre os outros de forma astuta.",
+          sugeridas: ["Destreza", "Carisma", "Persuasão", "Mãos Leves"],
+          mecanicaNome: "Mestre Social",
+          caminhos: {
+            "Mestre Social": "Inicia com todas as habilidades sociais em nível 1 como bônus, e escolhe uma delas na criação para receber bônus de 1.5x."
+          }
+        },
+        "Lutador 🥊": {
+          descricao: "Especialistas em combate físico corpo a corpo, com foco em artes marciais e duelos diretos, sempre buscando desafios e testando suas habilidades em combate singular.",
+          sugeridas: ["Arte Marcial", "Força", "Reflexos", "Agilidade"],
+          mecanicaNome: "Porradaria e Quebra Armadura",
+          caminhos: {
+            "Porradaria": "Em luta corporal com oponente desarmado, tem vantagem de 1.5x na Arte Marcial e Força.",
+            "Quebra Armadura": "Na criação, escolhe entre Arte Marcial ou Força: 1/3 do nível da habilidade escolhida vira DPP, DPI ou DPC bônus."
+          }
+        },
+        "Bárbaro 🪓": {
+          descricao: "Guerreiros de origem selvagem e nada convencional, movidos pela fúria e fervor da batalha. Não seguem técnicas tradicionais de combate, sendo considerados sanguinários e perigosos.",
+          sugeridas: ["Maestria com Armas Pesadas", "Resistência à Dor", "Fúria", "Força"],
+          mecanicaNome: "Guerreiro Louco",
+          caminhos: {
+            "Guerreiro Louco": "Recebe 1/5 do nível como bônus na habilidade Fúria."
+          }
+        },
+        "Bucaneiro 🌊": {
+          descricao: "Guerreiros do mar, exímios combatentes das marés e acrobatas de navios em mares revoltos. Lutam usando todo artifício possível, sendo considerados duelistas sujos, mas não menos respeitados.",
+          sugeridas: ["Maestria com Alfange", "Hidrocinese", "Persuasão", "Navegação"],
+          mecanicaNome: "Homem do Mar",
+          caminhos: {
+            "Homem do Mar": "Quando cercado por um grande corpo d'água (rio, barco, ilha etc.), recebe +1 em todas habilidades/magias e 1.5x em Navegação."
           }
         }
       },
       magica: {
-        "Mago": {
-          descricao: "Estudiosos profundos das leis arcanas que canalizam mana para conjurar feitiços elementais e de suporte.",
-          sugeridas: ["Conhecimento Arcano", "Bola de Fogo", "Escudo Arcano"],
-          mecanicaNome: "Escola Arcana",
+        "Mago 🌀": {
+          descricao: "Estudiosos das artes místicas que utilizam a magia para influenciar a natureza e o ambiente ao seu redor, possuindo ampla gama de feitiços capazes de alterar o curso da batalha.",
+          sugeridas: ["Raio Arcano", "Escudo Mágico", "Orbe Elemental", "Invocar Elemental"],
+          mecanicaNome: "Domínio Elemental",
           caminhos: {
-            "Evocação": "Aumenta o dano de magias elementais em área.",
-            "Encantamento": "Aumenta a duração e potência de escudos e utilitários."
+            "Domínio Elemental": "O Mago pode possuir 2 cineses simultaneamente."
+          }
+        },
+        "Feiticeiro 🔮": {
+          descricao: "Nascem com um dom inato para a magia, capazes de realizar feitiços de destruição em grande escala, frequentemente dizimando grupos de inimigos com suas habilidades poderosas.",
+          sugeridas: ["Explosão Arcana", "Tempestade de Magia", "Redemoinhos de Mana", "Campo de Força"],
+          mecanicaNome: "Poder Imensurável",
+          caminhos: {
+            "Poder Imensurável": "Escolhe uma magia na criação da ficha; essa magia recebe 1.5x o próprio nível como bônus."
+          }
+        },
+        "Bardo 🎵": {
+          descricao: "Artistas que usam música e magia para inspirar e encantar, utilizando seus instrumentos para lançar feitiços que afetam aliados e inimigos de maneiras diversas.",
+          sugeridas: ["Melodia Curativa", "Hino de Batalha", "Fascinação Musical", "Som da Velocidade"],
+          mecanicaNome: "Melodia Concentrada",
+          caminhos: {
+            "Melodia Concentrada": "Ao usar apenas uma magia benigna (buffs, cura, barreira), ela tem nível dobrado — mas exige concentração e instrumento; se mover ou for interrompido, perde o bônus."
+          }
+        },
+        "Telepata 🧠": {
+          descricao: "Utilizam magia psíquica para influenciar a mente e os pensamentos, comunicando-se telepaticamente e criando ilusões mentais para enganar os inimigos.",
+          sugeridas: ["Telepatia", "Telecinese", "Escudo Mental (também para aliados)", "Magias mentais em geral"],
+          mecanicaNome: "Fortaleza Mental",
+          caminhos: {
+            "Fortaleza Mental": "Recebe 1/4 do próprio nível como resistência mental bônus."
+          }
+        },
+        "Necromante 💀": {
+          descricao: "Mestres das artes sombrias, capazes de manipular as forças da morte para seus próprios fins, controlando exércitos de mortos-vivos e magias proibidas.",
+          sugeridas: ["Necromancia", "Invocação de Esqueletos", "Toque Necrótico", "Miasma Necromântico"],
+          mecanicaNome: "Ponte entre os Mundos",
+          caminhos: {
+            "Ponte entre os Mundos": "O Necromante pode falar com os mortos."
+          }
+        },
+        "Sacerdote ✨": {
+          descricao: "Homens de fé que utilizam oração e magia divina para realizar milagres e proteger os outros. Não precisam ser religiosos, mas costumam ser pessoas boas com grandes poderes de cura e buffs.",
+          sugeridas: ["Bênção Divina", "Cura", "Barreira", "Purificação"],
+          mecanicaNome: "Caminho Sagrado (escolha permanente na criação)",
+          caminhos: {
+            "Liturgia Sagrada": "Recebe 1/4 do nível como Sentido Sagrado, podendo perceber energias profanas/divinas.",
+            "Autoridade Espiritual": "É reconhecido por espíritos e mortos-vivos, com 1.5x em habilidades sociais contra seres sobrenaturais.",
+            "Antítese Profana": "Recebe 1/4 do nível como resistência mental contra entidades sobrenaturais."
+          }
+        },
+        "Druida 🌳": {
+          descricao: "Profundamente ligados à natureza, extraem sua magia das forças naturais, podendo invocar animais, controlar plantas e usar a natureza a seu favor em combate.",
+          sugeridas: ["Invocar Animais", "Fitocinese", "Forma de Urso", "Chuva Curativa"],
+          mecanicaNome: "Amigo da Natureza",
+          caminhos: {
+            "Amigo da Natureza": "O Druida pode falar com animais."
+          }
+        },
+        "Joker 🃏": {
+          descricao: "Focados no uso da magia para o entretenimento, os Jokers são como trapaceiros mágicos, podendo ser assassinos letais com seus truques e cartas ou hábeis ilusionistas.",
+          sugeridas: ["Manipulação de cartas", "Carisma", "Manipulações de dados", "Magias de Ilusão"],
+          mecanicaNome: "Agora você me vê, agora não vê mais",
+          caminhos: {
+            "Agora você me vê, agora não vê mais": "1x por combate, torna-se invisível por 1 turno (bônus de Furtividade e Ocultação Mágica de 1/4 do nível) e deixa uma ilusão de mana idêntica a si mesmo por 2 turnos. Se destruída, explode com dano de 1/6 do nível (A Bomba). A cópia possui 'Perfeição' (1/6 do nível); inimigos com sentidos de nível superior percebem a farsa (A Farsa). CD fora de combate: 6 turnos."
+          }
+        },
+        "Infernalista 👹": {
+          descricao: "Conjuradores que firmaram pactos com entidades demoníacas, abrindo portais para os planos infernais em troca de poder. Dominam fogo profano, maldições e evocação de demônios, sacrificando vitalidade para sustentar seus servos.",
+          sugeridas: ["Evocação de Demônio", "Correntes da Perdição", "Portal da Danação"],
+          mecanicaNome: "Só acaba quando eu disser que acabou",
+          caminhos: {
+            "Só acaba quando eu disser que acabou": "1x por combate, impede que uma de suas invocações seja destruída ao receber dano fatal — ela ignora o golpe e luta por mais 1 turno antes de se desfazer."
           }
         }
       },
       hibrida: {
-        "Shinobi": {
-          descricao: "Agentes das sombras que mesclam artes corporais com a energia dos Jutsus e Selos de Mão.",
+        "Guerreiro Rúnico 🈲": {
+          descricao: "Com runas entalhadas no próprio corpo — tatuagens, cicatrizes ou gemas cravadas na pele — canalizam poder arcano bruto para fortalecer o corpo, tornando a própria carne em um catalisador de poder.",
+          sugeridas: ["Runas Arcanas", "Força/Resistência Física", "Conhecimento de Runas"],
+          mecanicaNome: "Kit Inicial (escolha permanente na criação)",
+          caminhos: {
+            "Foco": "Começa com 1 Runa e 1 Habilidade de sua classe.",
+            "Poder Rúnico": "Começa com 2 Runas e nenhuma habilidade de classe.",
+            "Runa Pura (referência)": "Foca todo o poder em um único efeito, com potência máxima (ex: Runa do Raio Nv10 = Eletricidade Nv10).",
+            "Runa Híbrida (referência)": "Divide o poder entre dois efeitos, com metade da potência em cada (ex: Velocidade Nv5 + Eletricidade Nv5)."
+          }
+        },
+        "Paladino ⚖️": {
+          descricao: "Guerreiros devotos que canalizam sua fé inabalável para moldar o campo de batalha, seja pela Ordem (Paladino) ou pelo Caos (Algoz).",
+          sugeridas: ["Fé", "Buff ou Debuff", "Habilidade de sua escolha"],
+          mecanicaNome: "Fé e Caminho (Paladino ou Algoz)",
+          caminhos: {
+            "Benefícios Passivos da Fé": "Resistência Mágica, Resistência Mental e Força, cada uma em 1/2 do nível de Fé. Inicia combate com Pontos de Fé (1/2 do nível); orar recupera PF (+1 a cada 5 níveis, +2 PF por turno seguido).",
+            "Arauto da Justiça (Paladino)": "Gastando Pontos de Fé, adiciona Cura (1PF), Purificação (1PF) ou ambas (2PF) aos buffs. Efeitos com CD de 3 turnos por aliado.",
+            "Emissário da Desordem (Algoz)": "Ao aplicar um debuff, pode gastar 2 PF para 'Desmantelar' o alvo, reduzindo o nível de 1 habilidade/magia inimiga em 1/2 do nível do debuff por 3 turnos (1x por turno)."
+          }
+        },
+        "Mestre de Armas 🔱": {
+          descricao: "União perfeita entre guerreiro e mago. Não conjuram feitiços — forjam a magia em sua arma de escolha, transformando uma lâmina em uma lenda flamejante ou um martelo em um trovão ambulante.",
+          sugeridas: ["Evocação de Arma", "Maestria de Arma"],
+          mecanicaNome: "Efeitos da Arma (escolha permanente na criação)",
+          caminhos: {
+            "2 Efeitos Simples": "Encantamentos fundamentais (elemento básico, mudança de tamanho, convocação, convocação múltipla).",
+            "1 Efeito Complexo": "Encantamentos avançados e únicos (energia cinética acumulada, flechas teleguiadas, aprisionamento). No nível 20 da Evocação, ganha +1 Efeito Simples adicional independente da escolha inicial. A arma causa dano físico (maestria) e mágico (invocação), com DPC/DPI/DPP em metade do nível da magia de Evocação."
+          }
+        },
+        "Caçador de Aberrações 🪯": {
+          descricao: "Ordem de elite que usa poder profano para combater a impureza — vampiros, demônios, aberrações abissais e ameaças espirituais. Combatentes híbridos que unem físico e magia sob um juramento rígido. (Apenas raças não-profanas.)",
+          sugeridas: ["Uma Maestria, Arte Marcial ou Magia", "Respeito", "Herança de Don Voz"],
+          mecanicaNome: "Herança de Don Voz e Caminho (escolha permanente na criação)",
+          caminhos: {
+            "Herança de Don Voz": "Nível igual à metade do nível do caçador; garante Sentidos Aguçados, Conhecimento Específico e Conhecimento de Caça (1/2 cada). Surto Adaptativo: buffa 2 habilidades/magias em 1/2 do nível da Herança (1x por combate).",
+            "Profanus": "Foco em caçar seres profanos (lobisomens, vampiros, demônios); maestria/magia mais alta ganha 1.5x contra criaturas profanas.",
+            "Abyssus": "Foco em criaturas abissais; pode usar Surto Adaptativo com o dobro de duração em combate contra abissais.",
+            "Spectrum": "Foco em ameaças espirituais (fantasmas, yōkais); uma habilidade/magia causa +1/2 de dano mágico/espiritual bônus contra entidades e mortos-vivos."
+          }
+        },
+        "Acadêmico 📚": {
+          descricao: "Grandes estudiosos dedicados ao 'teórico' — aprender, reaprender, melhorar e aperfeiçoar. Uma gameplay única voltada à obtenção e aplicação prática de conhecimento.",
+          sugeridas: ["Conhecimentos diversos", "Habilidades de profissão"],
+          mecanicaNome: "Nicho (escolha permanente na criação)",
+          caminhos: {
+            "Estudioso": "Começa com 4 Conhecimentos, podendo trocar até 1 por habilidade de profissão (não-combate). Novo conhecimento ou melhoria de profissão custa 2PH; melhorar conhecimento custa 1PH.",
+            "Arcanista": "Voltado à utilização e estudo de magias; começa com 2 conhecimentos mágicos."
+          }
+        },
+        "Ruptor 🔫": {
+          descricao: "Utiliza uma Ruptora ('Arma-Espada') que dispara munições feitas de mana pura em vez de munições normais, combinando combate corpo a corpo com disparos mágicos defensivos e de suporte.",
+          sugeridas: ["Magia Núcleo Arma-Espada", "Maestria com Arma Espada"],
+          mecanicaNome: "Tambor e Disparos",
+          caminhos: {
+            "Recarga de Munições": "Tambor carrega 6 disparos, recarregando 1 a cada 2 turnos (melhora com o nível da Magia Núcleo).",
+            "Espalhar / Concentrar": "Espalhar causa dano em área igual à Maestria; Concentrar melhora o dano corpo a corpo em 50% da Maestria."
+          }
+        },
+        "Vagante ⚪": {
+          descricao: "Eremitas estudiosos de todas as artes, sem raízes fixas. Possuem aptidão inata para magia e combate marcial, sendo versáteis e imprevisíveis em batalha.",
+          sugeridas: ["Qualquer habilidade física", "Qualquer Cinese", "Qualquer Maestria", "Qualquer Conhecimento", "Qualquer magia"],
+          mecanicaNome: "Restrições do Vagante",
+          caminhos: {
+            "Restrições": "Pode ter 2 alinhamentos, mas deve escolher um no nível 50. Pode usar habilidades/magias únicas de outras classes (nível máximo reduzido à metade, normalmente 25). Não pode ter os alinhamentos Compensador e Alquimista ao mesmo tempo. Inicia com apenas 1 habilidade ou magia."
+          }
+        },
+        "Monge 🕉️": {
+          descricao: "Classe de combate corpo a corpo extremamente versátil, que se destaca em batalhas prolongadas, podendo atuar como vanguarda ou causador de dano, buscando a iluminação e a paz interior.",
+          sugeridas: ["Arte Marcial/Maestria", "Meditação", "Fluxo de Chi"],
+          mecanicaNome: "Fluxo de Chi (escolha a cada turno)",
+          caminhos: {
+            "Fluxo Vermelho": "Ataque e agressividade.",
+            "Fluxo Azul": "Defesa e esquiva.",
+            "Restrições": "Não pode usar armas cortantes/perfurantes (só contundentes) nem armaduras. Usar o mesmo fluxo em turnos seguidos causa Exaustão de Chi (-1/3 do nível por 2 turnos), removida ao Meditar."
+          }
+        },
+        "Shinobi 🥷🏻": {
+          descricao: "Agentes das sombras, mestres da furtividade e adaptação. Utilizam o próprio corpo, técnicas marciais e a energia da natureza para executar Jutsus canalizados por selos de mão — não aprendem magias tradicionais.",
           sugeridas: ["Maestria em Selos de Mão", "Ninjutsu", "Senjutsu", "Hankyūaku"],
           mecanicaNome: "Estilo Ninja Inicial",
           caminhos: {
-            "Taijutsu + Kenjutsu": "Luta corpo a corpo combinada com uso de lâminas.",
-            "Taijutsu + Bukijutsu": "Luta corporal e arremesso de armas ninjas (Kunais e Shurikens)."
+            "Ninjutsu (habilidade)": "No nível 1, escolha 2 entre: Taijutsu (corpo a corpo), Kenjutsu (espadas), Bukijutsu (armas ninjas), Resistência a Venenos, Passos Fantasmas ou Resistência à Dor — cada uma vale 0.5 nível (nível 30 libera uma 3ª escolha).",
+            "Senjutsu (magia)": "Uso da mana da natureza canalizada por selos de mão; mesma lógica de escolhas em 0.5 nível (nível 30 libera bônus adicional)."
           }
         }
       }
