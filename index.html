@@ -135,7 +135,7 @@
 </head>
 <body>
 
-  <!-- RESUMO SUPERIOR FIXO -->
+ <!-- RESUMO SUPERIOR FIXO -->
   <div id="summary-header">
     <h3>📜 Progresso da Criação</h3>
     <div class="summary-grid">
@@ -144,16 +144,20 @@
         <strong id="sum-raca">Pendente</strong>
       </div>
       <div class="summary-item">
-        <span>🧬 CLÃ / SUBRAÇA</span>
+        <span>🧬 CLÃ</span>
         <strong id="sum-cla">Pendente</strong>
       </div>
       <div class="summary-item">
         <span>🏹 CLASSE</span>
         <strong id="sum-classe">Pendente</strong>
       </div>
+      <div class="summary-item">
+        <span>🔸 ALINHAMENTO</span>
+        <strong id="sum-alinhamento">Pendente</strong>
+      </div>
     </div>
   </div>
-
+  
   <!-- ETAPA 1: SELEÇÃO DE RAÇA -->
   <div id="step-1" class="step-box">
     <h2 class="step-title">Etapa 1: Seleção de Raça</h2>
@@ -234,6 +238,60 @@
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
       <button class="btn btn-next" id="btn-step3" onclick="alert('Seleções de Raça, Clã e Classe concluídas!')" disabled>Avançar ➡️</button>
+    </div>
+  </div>
+
+  <!-- ETAPA 4: DADOS PESSOAIS E FÍSICOS -->
+  <div id="step-4" class="step-box hidden">
+    <h2 class="step-title">Etapa 4: Dados do Personagem</h2>
+
+    <label for="select-alinhamento">🔸 Alinhamento:</label>
+    <select id="select-alinhamento" onchange="validarEtapa4()">
+      <option value="">-- Selecione o Alinhamento --</option>
+      <option value="Pesquisador 🔍">Pesquisador 🔍</option>
+      <option value="Fidalgo 💰">Fidalgo 💰</option>
+      <option value="Domador 💢">Domador 💢</option>
+      <option value="Diplomata 🗣️">Diplomata 🗣️</option>
+      <option value="Flanqueador ⚜️">Flanqueador ⚜️</option>
+      <option value="Defensor 🛡️">Defensor 🛡️</option>
+      <option value="Ocultista 🔯">Ocultista 🔯</option>
+      <option value="Arcanista 🔹">Arcanista 🔹</option>
+      <option value="Retaliador ⚔️">Retaliador ⚔️</option>
+      <option value="Sábio 🧘‍♂️">Sábio 🧘‍♂️</option>
+      <option value="Artista Marcial 🈂️">Artista Marcial 🈂️</option>
+      <option value="Devoto 🛐">Devoto 🛐</option>
+      <option value="Estrategista 🧠">Estrategista 🧠</option>
+    </select>
+
+    <!-- Layout em Colunas (2 Blocos) -->
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+      <!-- Bloco da Esquerda -->
+      <div style="flex: 1;">
+        <label for="select-genero">🚻 Gênero:</label>
+        <select id="select-genero" onchange="validarEtapa4()">
+          <option value="">-- Selecione --</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Feminino">Feminino</option>
+          <option value="Outro">Outro</option>
+        </select>
+
+        <label for="input-idade">🎂 Idade:</label>
+        <input type="number" id="input-idade" placeholder="Ex: 25" oninput="validarEtapa4()" style="width:100%; padding:12px; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box;">
+      </div>
+
+      <!-- Bloco da Direita -->
+      <div style="flex: 1;">
+        <label for="input-altura">📏 Altura:</label>
+        <input type="text" id="input-altura" placeholder="Ex: 1,75m" oninput="validarEtapa4()" style="width:100%; padding:12px; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box; margin-bottom:15px;">
+
+        <label for="input-peso">⚖️ Peso:</label>
+        <input type="text" id="input-peso" placeholder="Ex: 70kg" oninput="validarEtapa4()" style="width:100%; padding:12px; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box;">
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="passoAnterior(3)">⬅️ Voltar</button>
+      <button class="btn btn-next" id="btn-step4" onclick="alert('Dados salvos! Próxima etapa em breve.')" disabled>Avançar ➡️</button>
     </div>
   </div>
 
@@ -917,6 +975,45 @@
 
       document.getElementById(`step-${passo}`).classList.remove("hidden");
     }
+
+    let alinhamentoEscolhido = "";
+
+function validarEtapa4() {
+  const alin = document.getElementById("select-alinhamento").value;
+  const gen = document.getElementById("select-genero").value;
+  const idade = document.getElementById("input-idade").value;
+  const alt = document.getElementById("input-altura").value;
+  const peso = document.getElementById("input-peso").value;
+
+  document.getElementById("sum-alinhamento").textContent = alin || "Pendente";
+
+  // Habilita o botão se todos os campos forem preenchidos
+  const btn = document.getElementById("btn-step4");
+  btn.disabled = !(alin && gen && idade && alt && peso);
+}
+
+function proximoPasso(passo) {
+  document.getElementById("step-1").classList.add("hidden");
+  document.getElementById("step-2").classList.add("hidden");
+  document.getElementById("step-3").classList.add("hidden");
+  document.getElementById("step-4").classList.add("hidden");
+
+  document.getElementById(`step-${passo}`).classList.remove("hidden");
+
+  if (passo === 3) {
+    carregarClasses();
+  }
+}
+
+function passoAnterior(passo) {
+  document.getElementById("step-1").classList.add("hidden");
+  document.getElementById("step-2").classList.add("hidden");
+  document.getElementById("step-3").classList.add("hidden");
+  document.getElementById("step-4").classList.add("hidden");
+
+  document.getElementById(`step-${passo}`).classList.remove("hidden");
+}
+    
   </script>
 </body>
 </html>
