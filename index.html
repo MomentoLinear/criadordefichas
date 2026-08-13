@@ -35,6 +35,7 @@
     }
     .summary-grid {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: 6px;
     }
@@ -42,7 +43,8 @@
       background: #2a2a2a;
       padding: 6px;
       border-radius: 6px;
-      flex: 1;
+      flex: 1 1 calc(50% - 6px);
+      min-width: 80px;
       text-align: center;
     }
     .summary-item span {
@@ -237,7 +239,7 @@
 
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(2)">⬅️ Voltar</button>
-      <button class="btn btn-next" id="btn-step3" onclick="alert('Seleções de Raça, Clã e Classe concluídas!')" disabled>Avançar ➡️</button>
+      <button class="btn btn-next" id="btn-step3" onclick="proximoPasso(4)" disabled>Avançar ➡️</button>
     </div>
   </div>
 
@@ -291,7 +293,22 @@
 
     <div class="nav-buttons">
       <button class="btn btn-prev" onclick="passoAnterior(3)">⬅️ Voltar</button>
-      <button class="btn btn-next" id="btn-step4" onclick="alert('Dados salvos! Próxima etapa em breve.')" disabled>Avançar ➡️</button>
+      <button class="btn btn-next" id="btn-step4" onclick="proximoPasso(5)" disabled>Avançar ➡️</button>
+    </div>
+  </div>
+
+  <!-- ETAPA 5: NOME DO PERSONAGEM E CONCLUSÃO -->
+  <div id="step-5" class="step-box hidden">
+    <h2 class="step-title">Etapa 5: Nome do Personagem</h2>
+
+    <label for="input-nome">📛 Nome do Personagem:</label>
+    <input type="text" id="input-nome" placeholder="Digite o nome do personagem" oninput="validarEtapa5()" style="width:100%; padding:12px; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box; margin-bottom:15px;">
+
+    <div id="card-resumo-final" class="info-card hidden"></div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-prev" onclick="passoAnterior(4)">⬅️ Voltar</button>
+      <button class="btn btn-next" id="btn-step5" onclick="finalizarPersonagem()" disabled>✅ Concluir</button>
     </div>
   </div>
 
@@ -956,15 +973,90 @@
       }
     }
 
+    // Variáveis globais dos Dados Pessoais / Físicos
+    let alinhamentoEscolhido = "";
+    let generoEscolhido = "";
+    let idadeEscolhida = "";
+    let alturaEscolhida = "";
+    let pesoEscolhido = "";
+    let nomePersonagem = "";
+
+    function validarEtapa4() {
+      alinhamentoEscolhido = document.getElementById("select-alinhamento").value;
+      generoEscolhido = document.getElementById("select-genero").value;
+      idadeEscolhida = document.getElementById("input-idade").value;
+      alturaEscolhida = document.getElementById("input-altura").value;
+      pesoEscolhido = document.getElementById("input-peso").value;
+
+      document.getElementById("sum-alinhamento").textContent = alinhamentoEscolhido || "Pendente";
+
+      // Habilita o botão se todos os campos forem preenchidos
+      const btn = document.getElementById("btn-step4");
+      btn.disabled = !(alinhamentoEscolhido && generoEscolhido && idadeEscolhida && alturaEscolhida && pesoEscolhido);
+    }
+
+    function validarEtapa5() {
+      nomePersonagem = document.getElementById("input-nome").value.trim();
+      const btn = document.getElementById("btn-step5");
+      btn.disabled = !nomePersonagem;
+
+      const card = document.getElementById("card-resumo-final");
+      if (nomePersonagem) {
+        card.innerHTML = `
+          <p>📛 <strong>Nome:</strong> ${nomePersonagem}</p>
+          <p>🧌 <strong>Raça:</strong> ${racaEscolhida || "Pendente"}</p>
+          <p>🧬 <strong>Clã:</strong> ${claEscolhido || "Pendente"}</p>
+          <p>🏹 <strong>Classe:</strong> ${classeEscolhida || "Pendente"}${caminhoEscolhido ? " (" + caminhoEscolhido + ")" : ""}</p>
+          <p>🔸 <strong>Alinhamento:</strong> ${alinhamentoEscolhido || "Pendente"}</p>
+          <p>🚻 <strong>Gênero:</strong> ${generoEscolhido || "Pendente"}</p>
+          <p>🎂 <strong>Idade:</strong> ${idadeEscolhida || "Pendente"}</p>
+          <p>📏 <strong>Altura:</strong> ${alturaEscolhida || "Pendente"}</p>
+          <p>⚖️ <strong>Peso:</strong> ${pesoEscolhido || "Pendente"}</p>
+        `;
+        card.classList.remove("hidden");
+      } else {
+        card.classList.add("hidden");
+      }
+    }
+
+    function finalizarPersonagem() {
+      if (!nomePersonagem) return;
+
+      const personagem = {
+        nome: nomePersonagem,
+        raca: racaEscolhida,
+        cla: claEscolhido,
+        classe: classeEscolhida,
+        caminhoClasse: caminhoEscolhido,
+        alinhamento: alinhamentoEscolhido,
+        genero: generoEscolhido,
+        idade: idadeEscolhida,
+        altura: alturaEscolhida,
+        peso: pesoEscolhido
+      };
+
+      // Envia os dados para o bot do Telegram salvar no banco de dados
+      if (tg && tg.sendData) {
+        tg.sendData(JSON.stringify(personagem));
+      }
+
+      alert("Personagem \"" + nomePersonagem + "\" criado com sucesso! ✅");
+    }
+
     function proximoPasso(passo) {
       document.getElementById("step-1").classList.add("hidden");
       document.getElementById("step-2").classList.add("hidden");
       document.getElementById("step-3").classList.add("hidden");
+      document.getElementById("step-4").classList.add("hidden");
+      document.getElementById("step-5").classList.add("hidden");
 
       document.getElementById(`step-${passo}`).classList.remove("hidden");
 
       if (passo === 3) {
         carregarClasses();
+      }
+      if (passo === 5) {
+        validarEtapa5();
       }
     }
 
@@ -972,48 +1064,11 @@
       document.getElementById("step-1").classList.add("hidden");
       document.getElementById("step-2").classList.add("hidden");
       document.getElementById("step-3").classList.add("hidden");
+      document.getElementById("step-4").classList.add("hidden");
+      document.getElementById("step-5").classList.add("hidden");
 
       document.getElementById(`step-${passo}`).classList.remove("hidden");
     }
-
-    let alinhamentoEscolhido = "";
-
-function validarEtapa4() {
-  const alin = document.getElementById("select-alinhamento").value;
-  const gen = document.getElementById("select-genero").value;
-  const idade = document.getElementById("input-idade").value;
-  const alt = document.getElementById("input-altura").value;
-  const peso = document.getElementById("input-peso").value;
-
-  document.getElementById("sum-alinhamento").textContent = alin || "Pendente";
-
-  // Habilita o botão se todos os campos forem preenchidos
-  const btn = document.getElementById("btn-step4");
-  btn.disabled = !(alin && gen && idade && alt && peso);
-}
-
-function proximoPasso(passo) {
-  document.getElementById("step-1").classList.add("hidden");
-  document.getElementById("step-2").classList.add("hidden");
-  document.getElementById("step-3").classList.add("hidden");
-  document.getElementById("step-4").classList.add("hidden");
-
-  document.getElementById(`step-${passo}`).classList.remove("hidden");
-
-  if (passo === 3) {
-    carregarClasses();
-  }
-}
-
-function passoAnterior(passo) {
-  document.getElementById("step-1").classList.add("hidden");
-  document.getElementById("step-2").classList.add("hidden");
-  document.getElementById("step-3").classList.add("hidden");
-  document.getElementById("step-4").classList.add("hidden");
-
-  document.getElementById(`step-${passo}`).classList.remove("hidden");
-}
-    
   </script>
 </body>
 </html>
